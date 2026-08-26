@@ -138,6 +138,7 @@ return [
                 'slug' => 'brow-lift-avec-teinture',
                 'nom' => 'Brow lift (avec teinture)',
                 'prix' => '45€',
+                'duree' => '1h30',
                 'image' => '/assets/prestations/brow-lift-avec-teinture.jpg',
                 'description' => "Ce soin pourra s'apparenter à un réhaussement de cils mais pour "
                     . "les sourcils. L'objectif est de dresser vos sourcils et de les teindre afin "

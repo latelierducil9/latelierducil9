@@ -52,6 +52,7 @@ return [
                 'etiquette' => 'Duo',
                 'prix' => '60€',
                 'duree' => '1h15',
+                'image' => '/assets/prestations/rehaussement-de-cils.jpg',
                 'description' => "Il est possible de faire un réhaussement de cils avec une amie "
                     . "ou quelqu'un de votre famille grâce à un réhaussement de cils DUO.",
             ],

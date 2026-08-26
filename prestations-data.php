@@ -37,14 +37,23 @@ return [
                 'slug' => 'rehaussement-de-cils',
                 'nom' => 'Réhaussement de cils',
                 'prix' => '35€',
-                'description' => '',
+                'duree' => '1h',
+                'image' => '/assets/prestations/rehaussement-de-cils.jpg',
+                'description' => "Le réhaussement de cils se pratique sur vos cils naturels. "
+                    . "La courbure de vos cils est révélée grâce à l'application d'une permanente "
+                    . "sur les poils des cils. Ensuite, les cils sont teintés en noir afin d'avoir "
+                    . "un effet mascara. Le réhaussement tient durant 5 semaines et la teinture "
+                    . "durant 3 semaines. Il est aussi possible de réhausser les cils du bas si la "
+                    . "longueur de vos cils le permet.",
             ],
             [
                 'slug' => 'offre-duo-rehaussement',
                 'nom' => 'Offre Duo réhaussement',
                 'etiquette' => 'Duo',
                 'prix' => '60€',
-                'description' => '',
+                'duree' => '1h15',
+                'description' => "Il est possible de faire un réhaussement de cils avec une amie "
+                    . "ou quelqu'un de votre famille grâce à un réhaussement de cils DUO.",
             ],
             [
                 'slug' => 'teinture-cils',

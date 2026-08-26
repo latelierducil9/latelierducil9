@@ -58,9 +58,10 @@ require __DIR__ . '/partials/header.php';
     </div>
 
     <div class="contact-card" style="max-width:100%;">
-      <p style="font-family:'Playfair Display',serif;font-size:28px;color:var(--pink);margin:0 0 20px;">
-        <?= h($prestation['prix']) ?>
-      </p>
+      <?php if (!empty($prestation['image'])): ?>
+        <img src="<?= h($prestation['image']) ?>" alt="<?= h($prestation['nom']) ?>"
+             style="width:100%;border-radius:12px;margin-bottom:24px;object-fit:cover;max-height:420px;">
+      <?php endif; ?>
 
       <?php if (trim((string) $prestation['description']) !== ''): ?>
         <p><?= nl2br(h($prestation['description'])) ?></p>
@@ -69,6 +70,13 @@ require __DIR__ . '/partials/header.php';
           La description détaillée de cette prestation arrive très bientôt.
         </p>
       <?php endif; ?>
+
+      <p style="margin-top:20px;">
+        <strong>Prix :</strong> <?= h($prestation['prix']) ?>
+        <?php if (!empty($prestation['duree'])): ?>
+          <br><strong>Durée :</strong> <?= h($prestation['duree']) ?>
+        <?php endif; ?>
+      </p>
     </div>
   </div>
 </section>

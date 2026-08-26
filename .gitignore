@@ -1,0 +1,17 @@
+# ---------------------------------------------------------------
+#  Fichiers qui ne doivent JAMAIS partir sur GitHub
+# ---------------------------------------------------------------
+
+# Contient les clés secrètes Stripe / Resend et le mot de passe admin.
+config.php
+
+# Les cartes cadeaux vendues (données clients) restent sur le serveur.
+data/*.sqlite
+data/*.sqlite-journal
+data/*.db
+data/*.log
+
+# Fichiers système inutiles
+.DS_Store
+Thumbs.db
+*.swp

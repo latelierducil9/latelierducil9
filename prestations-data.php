@@ -162,7 +162,7 @@ return [
                 'nom' => 'Brow lift sans épilation',
                 'prix' => '45€',
                 'duree' => '1h30',
-                'image' => '/assets/prestations/brow-lift-sans-epilation.jpg',
+                'image' => '/assets/prestations/brow-lift-avec-teinture.jpg',
                 'description' => "Il est possible de structurer vos sourcils sans épilation, "
                     . "grâce à une décoloration et une teinture adaptée à la carnation de votre "
                     . "peau : votre regard sera ainsi redessiné. Un mapping de vos sourcils est "

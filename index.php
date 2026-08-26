@@ -116,8 +116,6 @@
       <div class="contact-card" style="max-width:680px;">
         <p>Les tendances du moment pourront concerner des produits, des évènements ou encore les nouvelles poses de cils !</p>
         <p>Tout ce qui sera lié à l'actualité de L'atelier du cil à cil vous sera expliqué dans cette rubrique !</p>
-        <p>Durant le mois de septembre, Charazade et moi nous sommes formées au blanchiment dentaire et à la pose de strass dentaire.</p>
-        <p>C'est officiel, je suis de retour sur Feurs ! Durant 2 jours dans la semaine, je serai à mon atelier sur Feurs pour vous offrir<!-- CONTENU À COMPLÉTER : la suite de ce paragraphe a été coupée sur la capture d'écran, à ajouter dès réception --></p>
       </div>
     </div>
   </section>

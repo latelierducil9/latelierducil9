@@ -128,6 +128,16 @@ return [
                 'prix' => '10€',
                 'description' => '',
             ],
+            [
+                'slug' => 'nouvelle-pose-whippin',
+                'nom' => 'La nouvelle pose Whippin',
+                'etiquette' => 'Nouveau',
+                'prix' => '45€',
+                'description' => "Il est possible de combiner les deux ! Sur les 3/4 de l'œil, un "
+                    . "réhaussement de cils est effectué, puis en coin externe des extensions de "
+                    . "cils sont collées. Le rendu est très naturel tout en ayant des cils plus "
+                    . "longs sur l'extérieur du regard.",
+            ],
         ],
     ],
 

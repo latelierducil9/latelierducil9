@@ -64,7 +64,7 @@
           <div class="tarif-sub">Extension de cils</div>
           <div class="menu-item"><span class="menu-name">Cil à cil</span><span class="menu-lead"></span><span class="menu-price">70€</span></div><div class="menu-item"><span class="menu-name">Mixte</span><span class="menu-lead"></span><span class="menu-price">75€</span></div><div class="menu-item"><span class="menu-name">Volume russe</span><span class="menu-lead"></span><span class="menu-price">80€</span></div>
           <div class="tarif-sub">Remplissage</div>
-          <div class="menu-item"><span class="menu-name">Cil à cil</span><span class="menu-lead"></span><span class="menu-price">40€</span></div><div class="menu-item"><span class="menu-name">Mixte</span><span class="menu-lead"></span><span class="menu-price">45€</span></div><div class="menu-item"><span class="menu-name">Volume russe</span><span class="menu-lead"></span><span class="menu-price">45€</span></div><div class="menu-item"><span class="menu-name">Dépose cliente</span><span class="menu-lead"></span><span class="menu-price">10€</span></div>
+          <div class="menu-item"><span class="menu-name">Cil à cil</span><span class="menu-lead"></span><span class="menu-price">40€</span></div><div class="menu-item"><span class="menu-name">Mixte</span><span class="menu-lead"></span><span class="menu-price">45€</span></div><div class="menu-item"><span class="menu-name">Volume russe</span><span class="menu-lead"></span><span class="menu-price">45€</span></div><div class="menu-item"><span class="menu-name">Dépose cliente</span><span class="menu-lead"></span><span class="menu-price">10€</span></div><div class="menu-item"><span class="menu-name">La nouvelle pose Whippin<span class="menu-tag">Nouveau</span></span><span class="menu-lead"></span><span class="menu-price">45€</span></div>
         </div>
         <div class="tarif-col">
           <h3>Sourcils &amp; visage</h3>
@@ -116,6 +116,7 @@
       <div class="contact-card" style="max-width:680px;">
         <p>Les tendances du moment pourront concerner des produits, des évènements ou encore les nouvelles poses de cils !</p>
         <p>Tout ce qui sera lié à l'actualité de L'atelier du cil à cil vous sera expliqué dans cette rubrique !</p>
+        <p>Venez découvrir nos nouveaux locaux à Feurs.</p>
       </div>
     </div>
   </section>

@@ -60,7 +60,7 @@ return [
         // Garde-fous : le serveur refusera tout montant hors de ces bornes,
         // même si quelqu'un tente de tricher depuis son navigateur.
         'montant_min'   => 10,   // en euros
-        'montant_max'   => 500,  // en euros
+        'montant_max'   => 200,  // en euros
         // Durée de validité affichée sur la carte, en mois.
         'validite_mois' => 12,
     ],

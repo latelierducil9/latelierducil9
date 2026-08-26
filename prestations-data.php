@@ -71,7 +71,13 @@ return [
                 'slug' => 'extension-cil-a-cil',
                 'nom' => 'Extension de cils — Cil à cil',
                 'prix' => '70€',
-                'description' => '',
+                'duree' => '1h30',
+                'image' => '/assets/prestations/extension-cil-a-cil.jpg',
+                'description' => "La pose d'extension cil à cil est très naturelle. Elle a pour "
+                    . "objectif de vous ouvrir le regard, tel un effet mascara. Les avantages sont "
+                    . "doubles : vous obtenez des cils plus fournis et plus longs. Toutes les "
+                    . "3 semaines, un remplissage est nécessaire pour compléter les zones où les "
+                    . "cils seront tombés.",
             ],
             [
                 'slug' => 'extension-mixte',

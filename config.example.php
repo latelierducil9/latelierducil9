@@ -89,10 +89,10 @@ return [
     // -----------------------------------------------------------
     'institut' => [
         'nom'       => "L'atelier du cil à cil",
-        'adresse'   => '13 place Garibaldi, 42000 Saint-Étienne',
+        'adresse'   => '53 chemin de Jalloussier, 42110 Salvizinet',
         'telephone' => 'À_REMPLIR',
         'instagram' => 'https://www.instagram.com/latelierducilacil',
-        // Lien de prise de rendez-vous Square (Saint-Étienne)
+        // Lien de prise de rendez-vous Square (Salvizinet)
         'reservation' => 'https://book.squareup.com/appointments/6gl1qk9h445g0l/location/LBS84WWAYQ6ES/services',
     ],
 

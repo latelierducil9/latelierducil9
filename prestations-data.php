@@ -138,6 +138,7 @@ return [
                 'slug' => 'brow-lift-avec-teinture',
                 'nom' => 'Brow lift (avec teinture)',
                 'prix' => '45€',
+                'image' => '/assets/prestations/brow-lift-avec-teinture.jpg',
                 'description' => "Ce soin pourra s'apparenter à un réhaussement de cils mais pour "
                     . "les sourcils. L'objectif est de dresser vos sourcils et de les teindre afin "
                     . "d'éclaircir votre regard. Sur vos poils de sourcils, nous appliquerons une "
@@ -161,6 +162,7 @@ return [
                 'nom' => 'Épilation au fil : sourcils',
                 'prix' => '12€',
                 'duree' => '10 minutes',
+                'image' => '/assets/prestations/epilation-fil-sourcils.jpg',
                 'description' => "L'épilation au fil fonctionne tel un épilateur. Grâce à deux "
                     . "fils noués, il est possible de retirer les poils de vos sourcils mais "
                     . "également d'enlever la pilosité de votre visage, telle que la moustache. "
@@ -172,6 +174,7 @@ return [
                 'nom' => 'Épilation au fil : visage',
                 'prix' => '18€',
                 'duree' => '10 minutes',
+                'image' => '/assets/prestations/epilation-fil-visage.jpg',
                 'description' => "L'épilation au fil fonctionne tel un épilateur. Grâce à deux "
                     . "fils noués, il est possible de retirer les poils de vos sourcils mais "
                     . "également d'enlever la pilosité de votre visage, telle que la moustache. "

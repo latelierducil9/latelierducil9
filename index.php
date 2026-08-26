@@ -11,7 +11,7 @@
         </div>
       </div>
       <div class="hero-photo">
-        <img src="assets/hero.jpg" alt="Camille réalisant une pose de cils à l'atelier">
+        <img src="/assets/hero.jpg" alt="Camille réalisant une pose de cils à l'atelier">
         <div class="badge">✦ <b>Pose cil à cil</b> · savoir-faire</div>
       </div>
     </div>
@@ -32,7 +32,7 @@
             <div><b>Sourire</b>Blanchiment &amp; strass dentaire</div>
           </div>
         </div>
-        <div class="bio-illus"><img src="assets/logo.jpg" alt=""></div>
+        <div class="bio-illus"><img src="/assets/logo.jpg" alt=""></div>
       </div>
     </div>
   </section>
@@ -131,7 +131,7 @@
       </div>
       <div class="gift-panel">
         <div class="gift-visual">
-          <img class="gv-logo" src="assets/logo.jpg" alt="">
+          <img class="gv-logo" src="/assets/logo.jpg" alt="">
           <div>
             <div class="gv-title">Carte Cadeau</div>
             <div class="gv-amount" id="amountPreview">35€</div>

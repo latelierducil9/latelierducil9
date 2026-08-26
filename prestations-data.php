@@ -138,7 +138,11 @@ return [
                 'slug' => 'brow-lift-avec-teinture',
                 'nom' => 'Brow lift (avec teinture)',
                 'prix' => '45€',
-                'description' => '',
+                'description' => "Ce soin pourra s'apparenter à un réhaussement de cils mais pour "
+                    . "les sourcils. L'objectif est de dresser vos sourcils et de les teindre afin "
+                    . "d'éclaircir votre regard. Sur vos poils de sourcils, nous appliquerons une "
+                    . "permanente, une teinture, et une épilation sera effectuée. L'épilation est "
+                    . "une épilation au fil. Le brow lift durera 5 semaines.",
             ],
             [
                 'slug' => 'brow-lift-sans-epilation',
@@ -156,13 +160,23 @@ return [
                 'slug' => 'epilation-fil-sourcils',
                 'nom' => 'Épilation au fil : sourcils',
                 'prix' => '12€',
-                'description' => '',
+                'duree' => '10 minutes',
+                'description' => "L'épilation au fil fonctionne tel un épilateur. Grâce à deux "
+                    . "fils noués, il est possible de retirer les poils de vos sourcils mais "
+                    . "également d'enlever la pilosité de votre visage, telle que la moustache. "
+                    . "Pas de douleur, pas de rougeur et pas de chaleur qui brûle. La repousse des "
+                    . "poils est moindre, vous pouvez revenir toutes les 4 à 5 semaines.",
             ],
             [
                 'slug' => 'epilation-fil-visage',
                 'nom' => 'Épilation au fil : visage',
                 'prix' => '18€',
-                'description' => '',
+                'duree' => '10 minutes',
+                'description' => "L'épilation au fil fonctionne tel un épilateur. Grâce à deux "
+                    . "fils noués, il est possible de retirer les poils de vos sourcils mais "
+                    . "également d'enlever la pilosité de votre visage, telle que la moustache. "
+                    . "Pas de douleur, pas de rougeur et pas de chaleur qui brûle. La repousse des "
+                    . "poils est moindre, vous pouvez revenir toutes les 4 à 5 semaines.",
             ],
             [
                 'slug' => 'blanchiment-dentaire',

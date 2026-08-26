@@ -83,7 +83,11 @@ return [
                 'slug' => 'extension-mixte',
                 'nom' => 'Extension de cils — Mixte',
                 'prix' => '75€',
-                'description' => '',
+                'duree' => '1h45',
+                'image' => '/assets/prestations/extension-mixte.jpg',
+                'description' => "Ce style de pose permet d'alterner le cil à cil et le volume "
+                    . "russe, pour un effet d'intensité sur le regard tout en gardant le naturel "
+                    . "de la pose cil à cil. La pose est prévue pour 3 semaines.",
             ],
             [
                 'slug' => 'extension-volume-russe',

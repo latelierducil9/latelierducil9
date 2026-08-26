@@ -63,7 +63,12 @@ require __DIR__ . '/partials/header.php';
              style="width:100%;border-radius:12px;margin-bottom:24px;object-fit:cover;max-height:420px;">
       <?php endif; ?>
 
-      <?php if (trim((string) $prestation['description']) !== ''): ?>
+      <?php if (!empty($prestation['sections'])): ?>
+        <?php foreach ($prestation['sections'] as $section): ?>
+          <h3 style="font-family:'Playfair Display',serif;font-weight:500;font-size:17px;margin:0 0 8px;"><?= h($section['titre']) ?></h3>
+          <p style="margin-bottom:20px;"><?= nl2br(h($section['texte'])) ?></p>
+        <?php endforeach; ?>
+      <?php elseif (trim((string) $prestation['description']) !== ''): ?>
         <p><?= nl2br(h($prestation['description'])) ?></p>
       <?php else: ?>
         <p style="color:var(--ink-soft);font-style:italic;">

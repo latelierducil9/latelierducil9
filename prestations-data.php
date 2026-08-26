@@ -194,6 +194,37 @@ return [
                 'etiquette' => 'Nouveau',
                 'prix' => 'Sur RDV',
                 'description' => '',
+                'sections' => [
+                    [
+                        'titre' => 'Comment fonctionne le blanchiment dentaire ?',
+                        'texte' => "L'agent blanchissant agit sur la surface de la dent (l'émail). "
+                            . "Il n'atteint jamais la pulpe (la partie interne de la dent), car il "
+                            . "n'est pas assez puissant pour avoir un effet sur celle-ci. Nous "
+                            . "utilisons du peroxyde d'hydrogène (eau oxygénée). Le taux de "
+                            . "peroxyde autorisé et utilisé en France est de 0,01 %.",
+                    ],
+                    [
+                        'titre' => "Quelle est la durée d'action d'un blanchiment ?",
+                        'texte' => "Tout est question de vos habitudes alimentaires et "
+                            . "bucco-dentaires. En général, les changements de coloration d'un "
+                            . "blanchiment dentaire sont visibles pendant environ 2 ans. Des dents "
+                            . "immaculées et blanches, ce n'est pas la réalité : aucune technique "
+                            . "de blanchiment ne pourra éclaircir la couleur des dents au-delà de "
+                            . "leur couleur naturelle. L'émail des dents de certaines personnes "
+                            . "est d'ailleurs naturellement plus jaunâtre que celui d'autres "
+                            . "personnes. Il faut donc avoir des attentes réalistes face au "
+                            . "blanchiment dentaire.",
+                    ],
+                    [
+                        'titre' => 'À quoi faut-il s\'attendre comme changement de couleur des dents ?',
+                        'texte' => "Une amélioration de deux à trois teintes peut représenter une "
+                            . "différence visible sur un sourire ayant perdu de son éclat avec le "
+                            . "temps. Le blanchiment dentaire amène normalement un changement "
+                            . "allant de deux à sept teintes. Les dents jaunâtres répondent "
+                            . "habituellement mieux au traitement blanchissant que les dents "
+                            . "grisâtres.",
+                    ],
+                ],
             ],
             [
                 'slug' => 'pose-strass-dentaire',

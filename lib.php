@@ -297,8 +297,86 @@ function stripe(string $chemin, array $donnees = [], ?string $cleIdempotence = n
 }
 
 
+/**
+ * Envoie un e-mail via Resend (données envoyées au format JSON).
+ * Renvoie true si Resend a bien accepté le message.
+ *
+ * En mode simulation, rien n'est envoyé : le message est simplement
+ * écrit dans data/erreurs.log pour qu'on puisse vérifier son contenu.
+ */
+function envoyer_email(string $destinataire, string $sujet, string $html, string $texte): bool
+{
+    if (!est_rempli('resend.api_key')) {
+        journal("SIMULATION e-mail -> $destinataire | sujet : $sujet");
+        return true;
+    }
+
+    $corps = [
+        'from'    => (string) reglage('resend.expediteur'),
+        'to'      => [$destinataire],
+        'subject' => $sujet,
+        'html'    => $html,
+        'text'    => $texte,
+    ];
+
+    // Les réponses des clients arrivent directement chez l'institut.
+    if (est_rempli('resend.copie_institut')) {
+        $corps['reply_to'] = [(string) reglage('resend.copie_institut')];
+    }
+
+    [$httpCode, $reponse] = appel_api(
+        'https://api.resend.com/emails',
+        [
+            'Authorization: Bearer ' . reglage('resend.api_key'),
+            'Content-Type: application/json',
+        ],
+        json_encode($corps, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '{}'
+    );
+
+    if ($httpCode < 200 || $httpCode >= 300) {
+        journal(
+            "Envoi e-mail à $destinataire refusé (HTTP $httpCode) : "
+            . ($reponse['message'] ?? 'réponse vide')
+        );
+        return false;
+    }
+
+    return true;
+}
+
+
 /* ---------------------------------------------------------------
- *  5. ERREURS
+ *  5. AFFICHAGE
+ * ------------------------------------------------------------- */
+
+/** 3500 (centimes) devient « 35 € ». */
+function montant_lisible(int $cents): string
+{
+    return $cents % 100 === 0
+        ? number_format($cents / 100, 0, ',', ' ') . ' €'
+        : number_format($cents / 100, 2, ',', ' ') . ' €';
+}
+
+/** « 2027-08-31 » devient « 31 août 2027 ». */
+function date_lisible(?string $date): string
+{
+    if (!$date) {
+        return '';
+    }
+    $t = strtotime($date);
+    if ($t === false) {
+        return '';
+    }
+    $mois = [
+        1 => 'janvier', 'février', 'mars', 'avril', 'mai', 'juin',
+        'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre',
+    ];
+    return (int) date('j', $t) . ' ' . $mois[(int) date('n', $t)] . ' ' . date('Y', $t);
+}
+
+
+/* ---------------------------------------------------------------
+ *  6. ERREURS
  * ------------------------------------------------------------- */
 
 /** Écrit le détail technique d'un problème dans data/erreurs.log. */

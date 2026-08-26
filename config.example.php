@@ -36,6 +36,14 @@ return [
     // puis basculer sur les clés réelles (sk_live_) une fois tout validé.
     'stripe' => [
         'secret_key' => 'À_REMPLIR',   // sk_test_... puis sk_live_...
+
+        // « Signature » du webhook : elle permet à votre serveur de
+        // vérifier que le message « ce paiement est validé » vient
+        // bien de Stripe, et non d'un inconnu qui voudrait se faire
+        // offrir une carte cadeau gratuite.
+        // À récupérer sur dashboard.stripe.com > Développeurs >
+        // Webhooks, après avoir créé le webhook (on le fera ensemble).
+        'webhook_secret' => 'À_REMPLIR',  // whsec_...
     ],
 
 

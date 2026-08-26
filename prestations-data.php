@@ -93,7 +93,16 @@ return [
                 'slug' => 'extension-volume-russe',
                 'nom' => 'Extension de cils — Volume russe',
                 'prix' => '80€',
-                'description' => '',
+                'duree' => '1h30',
+                'image' => '/assets/prestations/extension-volume-russe.jpg',
+                'description' => "Le volume russe vous agrandira le regard et épaissira la densité "
+                    . "de vos cils. Sur un cil naturel, plusieurs poils vous seront collés. Les "
+                    . "extensions de L'atelier du cil à cil sont légères et ne casseront pas vos "
+                    . "cils naturels. Merci de m'envoyer un message sur Instagram ou sur mon "
+                    . "numéro de téléphone pour connaître le style de volume russe que vous "
+                    . "souhaitez : chargé, très léger, avec un effet fox eyes... Chacune n'envisage "
+                    . "pas le volume russe de la même façon, cela me permettra d'écouter vos "
+                    . "attentes les plus précises. Une tenue de 3 semaines est garantie !",
             ],
             [
                 'slug' => 'remplissage-cil-a-cil',

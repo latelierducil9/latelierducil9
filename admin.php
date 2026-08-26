@@ -149,7 +149,9 @@ if ($connecte && ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && isset($_POST['
                     )->execute([
                         $nouveau,
                         $nouveau === 0 ? 'utilisee' : 'payee',
-                        gmdate('Y-m-d H:i:s'),
+                        // La date d'utilisation ne doit être posée que lorsque la carte
+                        // est vraiment épuisée : une déduction partielle la laisse active.
+                        $nouveau === 0 ? gmdate('Y-m-d H:i:s') : null,
                         $carte['id'],
                     ]);
                     $message = montant_lisible($cents) . " déduits de {$carte['code']}"

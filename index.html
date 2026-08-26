@@ -132,6 +132,15 @@
     font-weight:700;margin-bottom:6px;}
   .tarif-sub{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);
     font-weight:600;margin:22px 0 4px;}
+  .services-intro{max-width:70ch;margin-bottom:28px;}
+  .services-intro p{color:var(--ink-soft);font-size:15px;margin:0 0 16px;}
+  .services-list{list-style:none;margin:0 0 32px;padding:0;display:grid;
+    grid-template-columns:1fr 1fr;gap:6px 32px;}
+  .services-list li{position:relative;padding-left:18px;font-size:14.5px;color:var(--ink);
+    padding-top:6px;padding-bottom:6px;}
+  .services-list li::before{content:"";position:absolute;left:0;top:14px;width:7px;height:7px;
+    border-radius:50%;background:var(--pink);}
+  @media(max-width:600px){.services-list{grid-template-columns:1fr;}}
   .menu-item{display:flex;align-items:baseline;gap:10px;padding:11px 0;border-bottom:1px dotted var(--line);}
   .menu-name{font-size:15.5px;}
   .menu-tag{font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:#fff;
@@ -214,6 +223,8 @@
     <ul class="nav-links" id="navLinks">
       <li><a href="#apropos">L'atelier</a></li>
       <li><a href="#tarifs">Prestations</a></li>
+      <li><a href="#formations">Formations</a></li>
+      <li><a href="#tendances">Tendances</a></li>
       <li><a href="#carte-cadeau">Carte cadeau</a></li>
       <li><a href="#contact">Contact</a></li>
       <li><a class="nav-cta" href="https://book.squareup.com/appointments/6gl1qk9h445g0l/location/LBS84WWAYQ6ES/services" target="_blank" rel="noopener">Prendre RDV</a></li>
@@ -267,6 +278,19 @@
         <h2>Prestations &amp; tarifs</h2>
         <p>Tous les soins du regard, des cils au sourire. Réservation en ligne pour chaque prestation.</p>
       </div>
+      <div class="services-intro">
+        <p>L'atelier du cil à cil vous propose de nombreuses prestations pour embellir votre regard :</p>
+      </div>
+      <ul class="services-list">
+        <li>Le réhaussement de cil</li>
+        <li>La pose d'extension de cil à cil</li>
+        <li>La pose d'extension volume mixte</li>
+        <li>Le volume russe</li>
+        <li>La nouvelle pose Whippin</li>
+        <li>Le brow lift pour dresser vos sourcils</li>
+        <li>L'épilation au fil de votre visage ou de vos sourcils</li>
+        <li>La structuration de vos sourcils avec un brow lift sans épilation</li>
+      </ul>
       <div class="tarif-grid">
         <div class="tarif-col">
           <h3>Cils</h3>
@@ -282,6 +306,36 @@
           <div class="tarif-sub">Le sourire</div>
           <div class="menu-item"><span class="menu-name">Blanchiment dentaire<span class="menu-tag">Nouveau</span></span><span class="menu-lead"></span><span class="menu-price">Sur RDV</span></div><div class="menu-item"><span class="menu-name">Pose de strass dentaire</span><span class="menu-lead"></span><span class="menu-price">Sur RDV</span></div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="formations">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Se former</p>
+        <h2>Mes formations</h2>
+      </div>
+      <div class="contact-card" style="max-width:680px;">
+        <p>Hello my girl !</p>
+        <p>Tu souhaites être indépendante et créer ta propre entreprise d'extension de cils ? Tu souhaites être technicienne de cils ?</p>
+        <p>Viens te former au sein de L'atelier du cil à cil, les formations s'étalent sur deux jours (ou plus). Tu bénéficiras d'un carnet de formation, de modèles réels et d'un accompagnement par mes soins. Le montant de la formation s'élève à 495€.</p>
+        <p>Un kit pour débuter au sein de ton activité te sera également mis à disposition<!-- CONTENU À COMPLÉTER : la suite du texte et la liste du contenu du kit ont été coupées sur la capture d'écran, à ajouter dès réception -->.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="tendances">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">L'actualité</p>
+        <h2>Les tendances</h2>
+      </div>
+      <div class="contact-card" style="max-width:680px;">
+        <p>Les tendances du moment pourront concerner des produits, des évènements ou encore les nouvelles poses de cils !</p>
+        <p>Tout ce qui sera lié à l'actualité de L'atelier du cil à cil vous sera expliqué dans cette rubrique !</p>
+        <p>Durant le mois de septembre, Charazade et moi nous sommes formées au blanchiment dentaire et à la pose de strass dentaire.</p>
+        <p>C'est officiel, je suis de retour sur Feurs ! Durant 2 jours dans la semaine, je serai à mon atelier sur Feurs pour vous offrir<!-- CONTENU À COMPLÉTER : la suite de ce paragraphe a été coupée sur la capture d'écran, à ajouter dès réception --></p>
       </div>
     </div>
   </section>

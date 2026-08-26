@@ -138,6 +138,7 @@ function creer_tables(PDO $pdo): void
             id                INTEGER PRIMARY KEY AUTOINCREMENT,
             code              TEXT    NOT NULL UNIQUE,
             montant_cents     INTEGER NOT NULL,
+            restant_cents     INTEGER,
             de_nom            TEXT    NOT NULL,
             de_email          TEXT    NOT NULL,
             pour_nom          TEXT    NOT NULL,
@@ -155,6 +156,24 @@ function creer_tables(PDO $pdo): void
     SQL);
     $pdo->exec('CREATE INDEX IF NOT EXISTS idx_session ON cartes (stripe_session_id)');
     $pdo->exec('CREATE INDEX IF NOT EXISTS idx_statut  ON cartes (statut)');
+
+    // Journal des tentatives de connexion ratées à l'espace admin,
+    // pour bloquer quelqu'un qui essaierait des mots de passe en série.
+    $pdo->exec(<<<SQL
+        CREATE TABLE IF NOT EXISTS connexions_ratees (
+            id    INTEGER PRIMARY KEY AUTOINCREMENT,
+            ip    TEXT NOT NULL,
+            quand TEXT NOT NULL
+        )
+    SQL);
+
+    // Mise à jour douce : ajoute la colonne du solde restant si une
+    // base créée avant cette version ne l'a pas encore.
+    $colonnes = $pdo->query('PRAGMA table_info(cartes)')->fetchAll();
+    if (!in_array('restant_cents', array_column($colonnes, 'name'), true)) {
+        $pdo->exec('ALTER TABLE cartes ADD COLUMN restant_cents INTEGER');
+        $pdo->exec('UPDATE cartes SET restant_cents = montant_cents WHERE restant_cents IS NULL');
+    }
 }
 
 /**

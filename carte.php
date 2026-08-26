@@ -105,7 +105,8 @@ function finaliser_carte(array $carte): array
         $expire       = date('Y-m-d', strtotime("+{$moisValidite} months"));
 
         $req = $pdo->prepare(
-            "UPDATE cartes SET statut = 'payee', paye_le = ?, expire_le = ?
+            "UPDATE cartes
+                SET statut = 'payee', paye_le = ?, expire_le = ?, restant_cents = montant_cents
               WHERE id = ? AND statut = 'en_attente'"
         );
         $req->execute([gmdate('Y-m-d H:i:s'), $expire, $id]);
@@ -171,6 +172,32 @@ function envoyer_emails_carte(array $carte): bool
 
     if (!$ok) {
         journal("E-mail carte {$carte['code']} NON remis à {$carte['pour_email']}");
+    }
+
+    return $ok;
+}
+
+
+/**
+ * Renvoie la carte au destinataire, depuis l'espace de suivi.
+ * On ne renvoie que l'e-mail du destinataire : inutile de déranger
+ * à nouveau l'acheteur et l'institut.
+ */
+function renvoyer_carte(array $carte): bool
+{
+    $ok = envoyer_email(
+        $carte['pour_email'],
+        $carte['de_nom'] . ' vous offre une carte cadeau — '
+            . reglage('institut.nom', "L'atelier du cil à cil"),
+        email_carte_html($carte),
+        email_carte_texte($carte)
+    );
+
+    if ($ok) {
+        bdd()->prepare('UPDATE cartes SET email_envoye = 1 WHERE id = ?')
+             ->execute([(int) $carte['id']]);
+    } else {
+        journal("Renvoi manuel de la carte {$carte['code']} en échec.");
     }
 
     return $ok;

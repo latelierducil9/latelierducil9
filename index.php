@@ -141,6 +141,7 @@
           <label>Montant</label>
           <div class="amount-chips" id="amountChips" role="group" aria-label="Choisir un montant">
             <button type="button" class="chip active" data-amount="35">35€</button>
+            <button type="button" class="chip" data-amount="40">40€</button>
             <button type="button" class="chip" data-amount="70">70€</button>
             <button type="button" class="chip" data-amount="80">80€</button>
             <button type="button" class="chip" data-amount="custom">Libre</button>

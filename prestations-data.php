@@ -131,7 +131,12 @@ return [
                 'slug' => 'depose-cliente',
                 'nom' => 'Dépose cliente',
                 'prix' => '10€',
-                'description' => '',
+                'duree' => '20 minutes',
+                'description' => "Vous souhaitez enlever vos cils ? Que vous soyez cliente ou "
+                    . "non, le prix ne varie pas. Les cils seront enlevés en moins de 20 minutes "
+                    . "et un soin vous sera appliqué.\n\n"
+                    . "De plus, suite à 3 remplissages après la pose d'extensions de cils, il "
+                    . "est obligatoire d'effectuer une dépose.",
             ],
             [
                 'slug' => 'nouvelle-pose-whippin',

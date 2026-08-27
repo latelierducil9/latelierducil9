@@ -35,8 +35,20 @@ const FICHIER_LOG     = DOSSIER_DONNEES . '/erreurs.log';
 
 /**
  * Lit config.php une seule fois et garde le résultat en mémoire.
- * Si config.php n'existe pas encore, on repart du modèle
- * config.example.php : le site tourne alors en mode simulation.
+ *
+ * Le fichier est cherché à deux endroits, dans cet ordre :
+ *
+ *   1. UN CRAN AU-DESSUS du site (à côté de public_html, et non dedans).
+ *      C'est l'emplacement recommandé, pour deux raisons : les mises à
+ *      jour du site ne peuvent pas l'écraser, et aucun visiteur ne peut
+ *      l'atteindre depuis un navigateur, même si PHP tombe en panne.
+ *
+ *   2. Dans le dossier du site, à côté des pages. Plus simple, mais le
+ *      fichier vit alors au milieu de ce qui est remplacé à chaque mise
+ *      à jour.
+ *
+ * Si aucun des deux n'existe, on repart du modèle config.example.php :
+ * le site tourne alors sans clés, et la carte cadeau reste fermée.
  */
 function config(?string $chemin = null): array
 {
@@ -45,11 +57,21 @@ function config(?string $chemin = null): array
         return $config;
     }
 
-    $fichier = __DIR__ . '/config.php';
-    if (!is_file($fichier)) {
-        $fichier = __DIR__ . '/config.example.php';
+    $emplacements = [
+        dirname(__DIR__) . '/config.php',   // à côté de public_html
+        __DIR__ . '/config.php',            // dans le dossier du site
+        __DIR__ . '/config.example.php',    // modèle, sans aucune clé
+    ];
+
+    $fichier = null;
+    foreach ($emplacements as $candidat) {
+        if (is_file($candidat)) {
+            $fichier = $candidat;
+            break;
+        }
     }
-    if (!is_file($fichier)) {
+
+    if ($fichier === null) {
         page_erreur("Le fichier de configuration est introuvable.");
     }
 

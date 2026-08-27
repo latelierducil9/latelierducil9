@@ -107,6 +107,23 @@ function est_rempli(string $chemin): bool
 }
 
 /**
+ * Nettoie une clé d'API recopiée à la main.
+ *
+ * Les clés Stripe et Resend sont longues : à l'écran, le navigateur les
+ * coupe sur plusieurs lignes, et le copier-coller emporte ces coupures
+ * avec lui. Une clé arrive alors dans config.php avec des retours à la
+ * ligne ou des espaces au milieu, et le service la rejette.
+ *
+ * Comme aucune clé ne contient jamais d'espace, on retire simplement
+ * tout ce qui y ressemble. Cela évite à Camille de devoir recoller sa
+ * clé en se demandant ce qui cloche.
+ */
+function cle_propre(mixed $cle): string
+{
+    return preg_replace('/\s+/', '', (string) $cle) ?? '';
+}
+
+/**
  * Le site tourne-t-il sur un ordinateur de test, et non en ligne ?
  *
  * Sert de garde-fou : certaines facilités réservées aux essais ne
@@ -314,6 +331,17 @@ function appel_api(
     ?string $corps = null,
     string $methode = 'POST'
 ): array {
+    // Une clé recopiée depuis Stripe ou Resend contient parfois un retour
+    // à la ligne : le navigateur coupe les longues clés à l'affichage, et
+    // la coupure part avec le copier-coller. Un en-tête HTTP contenant un
+    // retour à la ligne casse la requête en deux — le service reçoit alors
+    // les en-têtes comme si c'était des données, et refuse tout, avec un
+    // message incompréhensible. On nettoie donc systématiquement.
+    $entetes = array_map(
+        static fn (string $ligne): string => trim(str_replace(["\r", "\n"], '', $ligne)),
+        $entetes
+    );
+
     $ch = curl_init($url);
     curl_setopt_array($ch, [
         CURLOPT_RETURNTRANSFER => true,
@@ -346,7 +374,7 @@ function appel_api(
 function stripe(string $chemin, array $donnees = [], ?string $cleIdempotence = null): array
 {
     $entetes = [
-        'Authorization: Bearer ' . reglage('stripe.secret_key'),
+        'Authorization: Bearer ' . cle_propre(reglage('stripe.secret_key')),
         'Content-Type: application/x-www-form-urlencoded',
     ];
     if ($cleIdempotence !== null) {
@@ -393,7 +421,7 @@ function envoyer_email(string $destinataire, string $sujet, string $html, string
     [$httpCode, $reponse] = appel_api(
         'https://api.resend.com/emails',
         [
-            'Authorization: Bearer ' . reglage('resend.api_key'),
+            'Authorization: Bearer ' . cle_propre(reglage('resend.api_key')),
             'Content-Type: application/json',
         ],
         json_encode($corps, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '{}'

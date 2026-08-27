@@ -182,7 +182,9 @@ return [
                 'slug' => 'teinture-sourcils',
                 'nom' => 'Teinture sourcils',
                 'prix' => '10€',
-                'description' => '',
+                'description' => "La teinture sera choisie en fonction de votre carnation et de "
+                    . "votre couleur de cheveux. Elle s'adaptera à votre regard. La teinture "
+                    . "restera 3 à 4 semaines.",
             ],
             [
                 'slug' => 'epilation-fil-sourcils',

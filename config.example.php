@@ -25,7 +25,7 @@ return [
     // L'adresse publique du site, sans le / final.
     // Sert à construire les liens de retour après le paiement Stripe.
     // En test sur votre ordinateur : 'http://localhost:8000'
-    'site_url' => 'https://latelierducilacil.fr',
+    'site_url' => 'https://latelierducilacil.com',
 
 
     // -----------------------------------------------------------
@@ -55,7 +55,7 @@ return [
     // vérifié dans Resend, sinon les e-mails partiront en spam.
     'resend' => [
         'api_key'     => 'À_REMPLIR',  // re_...
-        'expediteur'  => "L'atelier du cil à cil <cartecadeau@latelierducilacil.fr>",
+        'expediteur'  => "L'atelier du cil à cil <cartecadeau@latelierducilacil.com>",
         // Adresse de l'institut : reçoit une copie de chaque vente.
         'copie_institut' => 'À_REMPLIR',
     ],

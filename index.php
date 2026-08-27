@@ -11,7 +11,8 @@
         </div>
       </div>
       <div class="hero-photo">
-        <img src="/assets/hero.jpg" alt="Camille réalisant une pose de cils à l'atelier">
+        <img src="/assets/hero.jpg" alt="Camille réalisant une pose de cils à l'atelier"
+             width="900" height="1200" fetchpriority="high" decoding="async">
         <div class="badge">✦ <b>Pose cil à cil</b> · savoir-faire</div>
       </div>
     </div>
@@ -32,7 +33,7 @@
             <div><b>Sourire</b>Blanchiment &amp; strass dentaire</div>
           </div>
         </div>
-        <div class="bio-illus"><img src="/assets/logo.jpg" alt=""></div>
+        <div class="bio-illus"><img src="/assets/logo.jpg" alt="" width="500" height="500" loading="lazy" decoding="async"></div>
       </div>
     </div>
   </section>
@@ -98,6 +99,7 @@
         <p style="font-size:13px;color:var(--ink-soft);">(exemple pour le kit réhaussement de cils)</p>
         <p>Les formations peuvent concerner le réhaussement de cils, le brow lift, la pose d'extensions cil à cil, la pose d'extension volume russe et enfin l'épilation au fil.</p>
         <img src="/assets/formations/formation-cils.jpg" alt="Formation à la pose de cils à l'atelier"
+             width="225" height="225" loading="lazy" decoding="async"
              style="max-width:280px;border-radius:12px;margin:16px 0;">
         <p>Pour bénéficier d'une formation, envoie-moi un message sur mon Instagram
           <a href="https://www.instagram.com/latelierducilacil" target="_blank" rel="noopener" style="color:var(--pink);font-weight:500;">@latelierducilacil</a>,
@@ -130,7 +132,7 @@
       </div>
       <div class="gift-panel">
         <div class="gift-visual">
-          <img class="gv-logo" src="/assets/logo.jpg" alt="">
+          <img class="gv-logo" src="/assets/logo.jpg" alt="" width="500" height="500" loading="lazy" decoding="async">
           <div>
             <div class="gv-title">Carte Cadeau</div>
             <div class="gv-amount" id="amountPreview">35€</div>
@@ -220,4 +222,59 @@
     amountInput.value=currentAmount;
   });
 </script>
+
+<?php
+/**
+ * Fiche d'établissement pour Google.
+ *
+ * Ce bloc n'est pas visible sur la page : il décrit l'institut dans un
+ * format que les moteurs de recherche comprennent. C'est ce qui permet
+ * à Google d'afficher directement l'adresse, le téléphone et le lien de
+ * réservation à côté du site dans ses résultats.
+ *
+ * Toutes les informations ci-dessous reprennent celles déjà affichées
+ * sur le site. Si l'une d'elles change (adresse, téléphone), il faut la
+ * corriger ici aussi.
+ *
+ * Les horaires d'ouverture ne sont volontairement pas indiqués : ils ne
+ * figurent nulle part sur le site, et une information fausse serait pire
+ * qu'une information absente.
+ */
+$fiche = [
+    '@context' => 'https://schema.org',
+    '@type' => 'BeautySalon',
+    'name' => "L'atelier du cil à cil",
+    'description' => $pageDescription,
+    'url' => $siteBase . '/',
+    'image' => $siteBase . '/assets/hero.jpg',
+    'logo' => $siteBase . '/assets/icon-512.png',
+    'telephone' => '+33612422657',
+    'email' => 'latelierducil9@gmail.com',
+    'priceRange' => '5€ - 80€',
+    'currenciesAccepted' => 'EUR',
+    'address' => [
+        '@type' => 'PostalAddress',
+        'streetAddress' => '53 chemin de Jalloussier',
+        'postalCode' => '42110',
+        'addressLocality' => 'Salvizinet',
+        'addressRegion' => 'Loire',
+        'addressCountry' => 'FR',
+    ],
+    'sameAs' => [
+        'https://www.instagram.com/latelierducilacil',
+        'https://www.tiktok.com/@latelierducil4',
+    ],
+    'potentialAction' => [
+        '@type' => 'ReserveAction',
+        'target' => [
+            '@type' => 'EntryPoint',
+            'urlTemplate' => 'https://book.squareup.com/appointments/6gl1qk9h445g0l/location/LBS84WWAYQ6ES/services',
+        ],
+    ],
+];
+?>
+<script type="application/ld+json">
+<?= json_encode($fiche, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) ?>
+</script>
+
 <?php require __DIR__ . '/partials/footer.php'; ?>

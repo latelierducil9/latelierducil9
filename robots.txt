@@ -1,0 +1,20 @@
+# ===============================================================
+#  Instructions pour Google et les autres moteurs de recherche
+# ===============================================================
+#
+#  Ce fichier indique aux moteurs ce qu'ils ont le droit de visiter.
+#  Les pages publiques sont toutes autorisées ; seules les pages
+#  techniques (espace admin, paiement) sont mises de côté : elles
+#  n'ont aucun intérêt dans les résultats de recherche.
+
+User-agent: *
+Allow: /
+
+# Pages techniques : rien à indexer
+Disallow: /admin.php
+Disallow: /create-checkout.php
+Disallow: /webhook.php
+Disallow: /merci.php
+Disallow: /data/
+
+Sitemap: https://latelierducilacil.com/sitemap.php

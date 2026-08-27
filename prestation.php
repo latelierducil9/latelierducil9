@@ -36,7 +36,19 @@ if ($prestation === null) {
 }
 
 $pageTitle = $prestation['nom'] . " — L'atelier du cil à cil";
-$pageDescription = $prestation['nom'] . " à Salvizinet, à partir de " . $prestation['prix'] . '.';
+
+// Les prestations sans tarif fixe affichent « Sur RDV » : écrire
+// « à partir de Sur RDV » n'aurait aucun sens, on tourne la phrase autrement.
+$prixFixe = (bool) preg_match('/\d/', $prestation['prix']);
+$pageDescription = $prixFixe
+    ? $prestation['nom'] . " à Salvizinet, à partir de " . $prestation['prix'] . '.'
+    : $prestation['nom'] . " à Salvizinet, sur rendez-vous.";
+
+// Quand une cliente partage le lien d'une prestation, c'est la photo de
+// cette prestation qui doit apparaître dans l'aperçu.
+if (!empty($prestation['image'])) {
+    $pageImage = $prestation['image'];
+}
 
 require __DIR__ . '/partials/header.php';
 ?>
@@ -49,17 +61,27 @@ require __DIR__ . '/partials/header.php';
 
     <div class="section-head">
       <p class="eyebrow"><?= h($categorieTitre) ?></p>
-      <h2>
+      <h1>
         <?= h($prestation['nom']) ?>
         <?php if (!empty($prestation['etiquette'])): ?>
           <span class="menu-tag" style="vertical-align:middle;"><?= h($prestation['etiquette']) ?></span>
         <?php endif; ?>
-      </h2>
+      </h1>
     </div>
 
     <div class="contact-card" style="max-width:100%;">
       <?php if (!empty($prestation['image'])): ?>
+        <?php
+        // On lit les dimensions réelles du fichier pour les déclarer dans la
+        // page : le navigateur réserve ainsi la bonne place avant même que
+        // la photo soit chargée, et le texte ne saute pas sous les yeux
+        // de la visiteuse. Si le fichier manque, on n'affiche rien de faux.
+        $fichierImage = __DIR__ . '/' . ltrim($prestation['image'], '/');
+        $dimensions = is_file($fichierImage) ? @getimagesize($fichierImage) : false;
+        ?>
         <img src="<?= h($prestation['image']) ?>" alt="<?= h($prestation['nom']) ?>"
+             <?php if ($dimensions): ?>width="<?= (int) $dimensions[0] ?>" height="<?= (int) $dimensions[1] ?>"<?php endif; ?>
+             fetchpriority="high" decoding="async"
              style="width:100%;border-radius:12px;margin-bottom:24px;object-fit:cover;max-height:420px;">
       <?php endif; ?>
 

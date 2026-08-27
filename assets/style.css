@@ -23,7 +23,11 @@
   }
   h1,h2,h3{margin:0;font-weight:600;}
   a{color:inherit;}
-  img{max-width:100%;display:block;}
+  /* height:auto est indispensable : les images déclarent leurs dimensions
+     réelles dans le HTML (pour réserver la place et éviter que la page
+     saute au chargement), et sans cette règle elles seraient déformées
+     dès que la largeur est contrainte par la mise en page. */
+  img{max-width:100%;display:block;height:auto;}
   :focus-visible{outline:2px solid var(--pink);outline-offset:3px;}
   .wrap{max-width:1080px;margin:0 auto;padding:0 26px;}
   .script{font-family:'Dancing Script',cursive;color:var(--pink);}
@@ -100,6 +104,11 @@
   section{padding:70px 0;}
   section+section{border-top:1px solid var(--line);}
   .section-head{max-width:60ch;margin-bottom:38px;}
+  /* h1 et h2 sont présentés de la même façon : sur la page d'accueil le
+     titre principal est ailleurs (le grand titre du haut), tandis que sur
+     les pages Prestations c'est ce titre-ci qui fait office de titre
+     principal. Même apparence, structure correcte pour Google. */
+  .section-head h1,
   .section-head h2{font-family:'Playfair Display',serif;font-weight:500;
     font-size:clamp(26px,3.2vw,36px);margin-top:8px;}
   .section-head p{color:var(--ink-soft);margin-top:10px;font-size:15.5px;}

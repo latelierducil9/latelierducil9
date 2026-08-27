@@ -24,7 +24,7 @@ require __DIR__ . '/partials/header.php';
   <div class="wrap">
     <div class="section-head">
       <p class="eyebrow">La carte</p>
-      <h2>Prestations &amp; tarifs</h2>
+      <h1>Prestations &amp; tarifs</h1>
       <p>Tous les soins du regard, des cils au sourire. Cliquez sur une prestation pour en voir le détail.</p>
     </div>
 

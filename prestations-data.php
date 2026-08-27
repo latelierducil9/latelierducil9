@@ -111,7 +111,9 @@ return [
                 'slug' => 'remplissage-cil-a-cil',
                 'nom' => 'Remplissage — Cil à cil',
                 'prix' => '40€',
-                'description' => '',
+                'description' => "Le remplissage permet de coller les cils tombés durant la "
+                    . "dernière pose. Le remplissage s'effectue toutes les trois semaines. Cette "
+                    . "prestation est adaptée pour toutes les poses cil à cil.",
             ],
             [
                 'slug' => 'remplissage-mixte',

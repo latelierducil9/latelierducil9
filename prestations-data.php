@@ -66,7 +66,9 @@ return [
                 'slug' => 'lash-botox',
                 'nom' => "Lash'Botox (Kératine)",
                 'prix' => '5€',
-                'description' => '',
+                'description' => "En dernière étape, il est conseillé d'appliquer le soin "
+                    . "Lash'Botox. Il est concentré en kératine et permettra à votre teinture "
+                    . "de cils de tenir plus longtemps.",
             ],
             [
                 'slug' => 'extension-cil-a-cil',

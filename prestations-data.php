@@ -60,7 +60,9 @@ return [
                 'slug' => 'teinture-cils',
                 'nom' => 'Teinture',
                 'prix' => '5€',
-                'description' => '',
+                'description' => "La teinture de cils leur donne une couleur noire intense, pour "
+                    . "un effet mascara naturel, sans maquillage. Elle peut s'ajouter à un "
+                    . "réhaussement de cils ou être réalisée seule, et tient environ 3 semaines.",
             ],
             [
                 'slug' => 'lash-botox',
@@ -256,7 +258,10 @@ return [
                 'slug' => 'pose-strass-dentaire',
                 'nom' => 'Pose de strass dentaire',
                 'prix' => 'Sur RDV',
-                'description' => '',
+                'description' => "Un petit strass est délicatement fixé sur une dent pour un "
+                    . "sourire original et scintillant. La pose est indolore et ne nécessite "
+                    . "aucun perçage : le strass peut être retiré à tout moment sans abîmer "
+                    . "l'émail.",
             ],
         ],
     ],

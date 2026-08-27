@@ -85,12 +85,37 @@ function est_rempli(string $chemin): bool
 }
 
 /**
+ * Le site tourne-t-il sur un ordinateur de test, et non en ligne ?
+ *
+ * Sert de garde-fou : certaines facilités réservées aux essais ne
+ * doivent jamais s'activer sur le site public.
+ */
+function site_local(): bool
+{
+    $hote = strtolower((string) ($_SERVER['HTTP_HOST'] ?? ''));
+    $hote = explode(':', $hote)[0];
+
+    return $hote === 'localhost'
+        || $hote === '127.0.0.1'
+        || $hote === '::1'
+        || str_ends_with($hote, '.local')
+        || str_ends_with($hote, '.test');
+}
+
+/**
  * MODE SIMULATION : tant que la clé Stripe n'est pas renseignée,
  * on peut tester tout le parcours sans paiement ni e-mail réels.
+ *
+ * ATTENTION : ce mode délivre de vraies cartes cadeaux sans faire
+ * payer. Il est donc strictement réservé aux essais sur un ordinateur
+ * de test. Sur le site en ligne, il reste désactivé même si la clé
+ * Stripe manque — sinon n'importe qui pourrait repartir avec une carte
+ * gratuite. Dans ce cas, c'est la carte cadeau qui est mise en pause,
+ * pas la sécurité (voir create-checkout.php).
  */
 function mode_simulation(): bool
 {
-    return !est_rempli('stripe.secret_key');
+    return !est_rempli('stripe.secret_key') && site_local();
 }
 
 

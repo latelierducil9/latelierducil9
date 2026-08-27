@@ -139,6 +139,24 @@ if (mode_simulation()) {
     exit;
 }
 
+/* ---------------------------------------------------------------
+ *  6a bis. GARDE-FOU : PAS DE CLÉ STRIPE SUR LE SITE EN LIGNE
+ * ------------------------------------------------------------- */
+
+// Sans clé Stripe, aucun paiement ne peut être encaissé. Plutôt que de
+// laisser passer la commande (ce qui reviendrait à offrir la carte), on
+// arrête ici et on l'annonce poliment à la visiteuse. La commande déjà
+// enregistrée reste en attente de paiement, elle ne vaut rien tant que
+// Stripe ne l'a pas confirmée.
+if (!est_rempli('stripe.secret_key')) {
+    journal("Commande $code refusée : la clé Stripe n'est pas configurée.");
+    page_erreur(
+        "L'achat de carte cadeau en ligne n'est pas encore disponible. "
+        . "Contactez l'institut, nous vous l'établirons directement.",
+        503
+    );
+}
+
 
 /* ---------------------------------------------------------------
  *  6b. CRÉATION DE LA PAGE DE PAIEMENT STRIPE

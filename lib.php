@@ -231,6 +231,32 @@ function creer_tables(PDO $pdo): void
         )
     SQL);
 
+    // Demandes de devis pour les formations. Une ligne est créée dès
+    // qu'une candidate remplit le formulaire ; le devis lui-même n'est
+    // envoyé que lorsque Camille le décide depuis son espace.
+    $pdo->exec(<<<SQL
+        CREATE TABLE IF NOT EXISTS devis (
+            id                INTEGER PRIMARY KEY AUTOINCREMENT,
+            reference         TEXT    NOT NULL UNIQUE,
+            formation_slug    TEXT    NOT NULL,
+            formation_nom     TEXT    NOT NULL,
+            prix_propose_cents INTEGER NOT NULL,
+            nom               TEXT    NOT NULL,
+            email             TEXT    NOT NULL,
+            telephone         TEXT    NOT NULL DEFAULT '',
+            periode_souhaitee TEXT    NOT NULL DEFAULT '',
+            niveau            TEXT    NOT NULL DEFAULT '',
+            message           TEXT    NOT NULL DEFAULT '',
+            statut            TEXT    NOT NULL DEFAULT 'nouvelle',
+            notes_camille     TEXT    NOT NULL DEFAULT '',
+            ip                TEXT,
+            cree_le           TEXT    NOT NULL,
+            devis_envoye_le   TEXT,
+            repondu_le        TEXT
+        )
+    SQL);
+    $pdo->exec('CREATE INDEX IF NOT EXISTS idx_devis_statut ON devis (statut)');
+
     // Mise à jour douce : ajoute la colonne du solde restant si une
     // base créée avant cette version ne l'a pas encore.
     $colonnes = $pdo->query('PRAGMA table_info(cartes)')->fetchAll();
@@ -245,24 +271,64 @@ function creer_tables(PDO $pdo): void
  * du type ACC-7K2P-9XQ4. Les lettres prêtant à confusion (O, 0, I, 1)
  * sont volontairement exclues pour éviter les erreurs de recopie.
  */
-function code_unique(PDO $pdo): string
+function code_unique(PDO $pdo, string $genre = 'carte'): string
 {
+    // Les noms de table ne peuvent pas être passés en paramètre à SQLite.
+    // On les choisit donc dans cette liste fermée, jamais depuis une saisie.
+    $formats = [
+        'carte' => ['prefixe' => 'ACC', 'table' => 'cartes', 'colonne' => 'code'],
+        'devis' => ['prefixe' => 'DEV', 'table' => 'devis',  'colonne' => 'reference'],
+    ];
+
+    if (!isset($formats[$genre])) {
+        journal("Genre de code inconnu : $genre");
+        page_erreur("Le site n'arrive pas à traiter votre demande.");
+    }
+
+    ['prefixe' => $prefixe, 'table' => $table, 'colonne' => $colonne] = $formats[$genre];
+
+    // Alphabet sans I, O, 0 ni 1 : une cliente qui recopie son code à la
+    // main ne peut pas les confondre.
     $alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
     for ($essai = 0; $essai < 20; $essai++) {
         $lettres = '';
         for ($i = 0; $i < 8; $i++) {
             $lettres .= $alphabet[random_int(0, strlen($alphabet) - 1)];
         }
-        $code = 'ACC-' . substr($lettres, 0, 4) . '-' . substr($lettres, 4, 4);
+        $code = $prefixe . '-' . substr($lettres, 0, 4) . '-' . substr($lettres, 4, 4);
 
-        $req = $pdo->prepare('SELECT 1 FROM cartes WHERE code = ?');
+        $req = $pdo->prepare("SELECT 1 FROM $table WHERE $colonne = ?");
         $req->execute([$code]);
         if (!$req->fetchColumn()) {
             return $code;
         }
     }
-    journal('Impossible de générer un code unique après 20 essais.');
-    page_erreur("Le site n'arrive pas à créer la carte cadeau.");
+    journal("Impossible de générer un code unique ($genre) après 20 essais.");
+    page_erreur("Le site n'arrive pas à traiter votre demande.");
+}
+
+/**
+ * Un même appareil a-t-il déjà envoyé trop de demandes récemment ?
+ *
+ * Empêche qu'un robot remplisse le formulaire en boucle. Partagé entre
+ * la carte cadeau et les demandes de devis.
+ */
+function trop_de_demandes(PDO $pdo, string $genre, string $ip, int $maximum): bool
+{
+    // Même précaution que ci-dessus : liste fermée, jamais de saisie.
+    $tables = ['carte' => 'cartes', 'devis' => 'devis'];
+    if (!isset($tables[$genre])) {
+        return false;
+    }
+    $table = $tables[$genre];
+
+    $req = $pdo->prepare(
+        "SELECT COUNT(*) FROM $table
+          WHERE ip = ? AND cree_le > datetime('now', '-1 hour')"
+    );
+    $req->execute([$ip]);
+
+    return (int) $req->fetchColumn() >= $maximum;
 }
 
 

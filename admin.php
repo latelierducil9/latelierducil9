@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 require __DIR__ . '/carte.php';
+require __DIR__ . '/devis.php';
 
 /* ---------------------------------------------------------------
  *  SESSION
@@ -46,6 +47,12 @@ $pdo      = bdd();
 $connecte = ($_SESSION['connecte'] ?? false) === true;
 $message  = '';
 $erreur   = '';
+
+// Deux espaces cohabitent sur cette page : les cartes cadeaux vendues
+// et les demandes de formation. « vue » dit lequel on regarde.
+// On accepte aussi la valeur envoyée par un formulaire, sans quoi une
+// action sur une demande de formation ramènerait aux cartes cadeaux.
+$vue = (($_GET['vue'] ?? $_POST['vue'] ?? '') === 'devis') ? 'devis' : 'cartes';
 
 
 /* ---------------------------------------------------------------
@@ -111,6 +118,76 @@ if ($connecte && ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && isset($_POST['
     // Jeton anti-piège : l'action doit venir d'un vrai clic sur cette page.
     if (!hash_equals((string) ($_SESSION['jeton'] ?? ''), (string) ($_POST['jeton'] ?? ''))) {
         $erreur = 'Action refusée. Merci de recharger la page.';
+
+    } elseif (str_starts_with((string) $_POST['action'], 'devis_')) {
+
+        /* ---- Actions sur une demande de formation ---- */
+
+        $ligneDevis = devis_par_id((int) ($_POST['id'] ?? 0));
+
+        if ($ligneDevis === null) {
+            $erreur = 'Demande introuvable.';
+        } else {
+            switch ($_POST['action']) {
+
+                case 'devis_envoyer':
+                    // Camille peut ajuster le tarif avant d'envoyer : une
+                    // formation se négocie parfois. Le champ vide garde
+                    // le prix d'origine.
+                    $prixSaisi = trim((string) ($_POST['prix'] ?? ''));
+
+                    if ($prixSaisi !== '') {
+                        if (!preg_match('/^[0-9]{1,5}([.,][0-9]{1,2})?$/', $prixSaisi)) {
+                            $erreur = 'Le tarif indiqué n\'est pas valable.';
+                            break;
+                        }
+                        $cents = (int) round((float) str_replace(',', '.', $prixSaisi) * 100);
+                        if ($cents <= 0) {
+                            $erreur = 'Le tarif doit être supérieur à zéro.';
+                            break;
+                        }
+                        $pdo->prepare('UPDATE devis SET prix_propose_cents = ? WHERE id = ?')
+                            ->execute([$cents, $ligneDevis['id']]);
+                        $ligneDevis['prix_propose_cents'] = $cents;
+                    }
+
+                    $souci = envoyer_devis($ligneDevis);
+                    if ($souci === '') {
+                        $message = "Devis {$ligneDevis['reference']} envoyé à {$ligneDevis['email']}.";
+                    } else {
+                        $erreur = $souci;
+                    }
+                    break;
+
+                case 'devis_acceptee':
+                    $pdo->prepare("UPDATE devis SET statut = 'acceptee', repondu_le = ? WHERE id = ?")
+                        ->execute([gmdate('Y-m-d H:i:s'), $ligneDevis['id']]);
+                    $message = "Demande {$ligneDevis['reference']} marquée acceptée.";
+                    break;
+
+                case 'devis_sans_suite':
+                    $pdo->prepare("UPDATE devis SET statut = 'sans_suite', repondu_le = ? WHERE id = ?")
+                        ->execute([gmdate('Y-m-d H:i:s'), $ligneDevis['id']]);
+                    $message = "Demande {$ligneDevis['reference']} classée sans suite.";
+                    break;
+
+                case 'devis_rouvrir':
+                    $pdo->prepare("UPDATE devis SET statut = 'nouvelle', repondu_le = NULL,
+                                          devis_envoye_le = NULL
+                                    WHERE id = ?")
+                        ->execute([$ligneDevis['id']]);
+                    $message = "Demande {$ligneDevis['reference']} remise en attente.";
+                    break;
+
+                case 'devis_note':
+                    $note = nettoyer_texte($_POST['note'] ?? '', 500);
+                    $pdo->prepare('UPDATE devis SET notes_camille = ? WHERE id = ?')
+                        ->execute([$note, $ligneDevis['id']]);
+                    $message = 'Note enregistrée.';
+                    break;
+            }
+        }
+
     } else {
         $carte = carte_par_id((int) ($_POST['id'] ?? 0));
 
@@ -231,6 +308,50 @@ if ($connecte) {
     $stats['a_renvoyer'] = (int) $pdo->query(
         "SELECT COUNT(*) FROM cartes WHERE statut = 'payee' AND email_envoye = 0"
     )->fetchColumn();
+}
+
+
+/* ---------------------------------------------------------------
+ *  LES DEMANDES DE FORMATION
+ * ------------------------------------------------------------- */
+
+$demandes     = [];
+$statsDevis   = ['nouvelles' => 0, 'en_attente_reponse' => 0, 'acceptees' => 0];
+$devisManques = [];
+
+if ($connecte) {
+
+    // Le compteur des nouvelles demandes s'affiche quelle que soit la
+    // vue : Camille doit voir qu'on l'attend même en regardant les cartes.
+    $statsDevis['nouvelles'] = (int) $pdo->query(
+        "SELECT COUNT(*) FROM devis WHERE statut = 'nouvelle'"
+    )->fetchColumn();
+
+    if ($vue === 'devis') {
+        $filtreDevis = (string) ($_GET['etat'] ?? 'a_traiter');
+
+        switch ($filtreDevis) {
+            case 'envoyes':  $ou = "statut = 'devis_envoye'"; break;
+            case 'acceptes': $ou = "statut = 'acceptee'";     break;
+            case 'toutes':   $ou = '1 = 1';                   break;
+            default:         $ou = "statut = 'nouvelle'";     break;
+        }
+
+        $demandes = $pdo->query(
+            "SELECT * FROM devis WHERE $ou ORDER BY id DESC LIMIT 300"
+        )->fetchAll();
+
+        $statsDevis['en_attente_reponse'] = (int) $pdo->query(
+            "SELECT COUNT(*) FROM devis WHERE statut = 'devis_envoye'"
+        )->fetchColumn();
+
+        $statsDevis['acceptees'] = (int) $pdo->query(
+            "SELECT COUNT(*) FROM devis WHERE statut = 'acceptee'"
+        )->fetchColumn();
+
+        // Ce qui empêcherait encore un devis de partir.
+        $devisManques = devis_manque_quoi();
+    }
 }
 
 $jeton = (string) ($_SESSION['jeton'] ?? '');
@@ -358,19 +479,29 @@ $jeton = (string) ($_SESSION['jeton'] ?? '');
 
     <div class="tete">
       <div>
-        <h1>Cartes cadeaux</h1>
+        <h1><?= $vue === 'devis' ? 'Demandes de formation' : 'Cartes cadeaux' ?></h1>
         <div class="sous">L'atelier du cil à cil — 53 chemin de Jalloussier, Salvizinet</div>
       </div>
       <a class="btn btn-ghost" href="admin.php?deconnexion=1">Se déconnecter</a>
     </div>
 
-    <?php if (mode_simulation()): ?>
+    <div class="onglets" style="margin-bottom:22px;">
+      <a class="onglet<?= $vue === 'cartes' ? ' actif' : '' ?>" href="admin.php">Cartes cadeaux</a>
+      <a class="onglet<?= $vue === 'devis' ? ' actif' : '' ?>" href="admin.php?vue=devis">
+        Formations<?= $statsDevis['nouvelles'] > 0 ? ' · ' . $statsDevis['nouvelles'] : '' ?>
+      </a>
+    </div>
+
+    <?php /* Ce bandeau ne concerne que les cartes cadeaux : il parle de Stripe. */ ?>
+    <?php if ($vue === 'cartes' && mode_simulation()): ?>
       <div class="avis ok"><strong>Mode simulation.</strong> Aucun paiement ni e-mail réel
         n'est traité tant que les clés Stripe ne sont pas renseignées.</div>
     <?php endif; ?>
 
     <?php if ($message !== ''): ?><div class="avis ok"><?= h($message) ?></div><?php endif; ?>
     <?php if ($erreur  !== ''): ?><div class="avis ko"><?= h($erreur)  ?></div><?php endif; ?>
+
+    <?php if ($vue === 'cartes'): ?>
 
     <div class="chiffres">
       <div class="chiffre">
@@ -512,6 +643,175 @@ $jeton = (string) ($_SESSION['jeton'] ?? '');
       <?php endforeach; ?>
       </div>
     <?php endif; ?>
+
+    <?php else: /* ---------- LES DEMANDES DE FORMATION ---------- */ ?>
+
+    <?php if ($devisManques !== []): ?>
+      <div class="avis ko">
+        <strong>Les devis ne peuvent pas encore partir.</strong>
+        Il manque <?= h(implode(', ', $devisManques)) ?>.
+        Ces informations se renseignent dans le fichier <code>config.php</code>,
+        sur le serveur. En France, un devis engage celui qui l'émet : mieux vaut
+        l'envoyer complet.
+      </div>
+    <?php endif; ?>
+
+    <div class="chiffres">
+      <div class="chiffre<?= $statsDevis['nouvelles'] > 0 ? ' alerte' : '' ?>">
+        <div class="cle">À traiter</div>
+        <div class="val"><?= $statsDevis['nouvelles'] ?></div>
+      </div>
+      <div class="chiffre">
+        <div class="cle">Devis envoyés</div>
+        <div class="val"><?= $statsDevis['en_attente_reponse'] ?></div>
+      </div>
+      <div class="chiffre">
+        <div class="cle">Formations acceptées</div>
+        <div class="val"><?= $statsDevis['acceptees'] ?></div>
+      </div>
+    </div>
+
+    <div class="outils">
+      <div class="onglets">
+        <?php
+        $etat    = (string) ($_GET['etat'] ?? 'a_traiter');
+        $etatsOk = [
+            'a_traiter' => 'À traiter',
+            'envoyes'   => 'Devis envoyés',
+            'acceptes'  => 'Acceptées',
+            'toutes'    => 'Toutes',
+        ];
+        foreach ($etatsOk as $cle => $libelle) {
+            $actif = $etat === $cle || ($cle === 'a_traiter' && !isset($etatsOk[$etat]));
+            echo '<a class="onglet' . ($actif ? ' actif' : '') . '" href="admin.php?vue=devis&amp;etat='
+                . h($cle) . '">' . h($libelle) . '</a>';
+        }
+        ?>
+      </div>
+    </div>
+
+    <?php if ($demandes === []): ?>
+      <div class="vide">Aucune demande dans cette catégorie pour le moment.</div>
+    <?php else: ?>
+      <div class="liste">
+      <?php foreach ($demandes as $d):
+          $etiquettes = [
+              'nouvelle'     => ['attente', 'À traiter'],
+              'devis_envoye' => ['active',  'Devis envoyé'],
+              'acceptee'     => ['finie',   'Acceptée'],
+              'sans_suite'   => ['expiree', 'Sans suite'],
+          ];
+          [$classe, $libelle] = $etiquettes[$d['statut']] ?? ['expiree', $d['statut']];
+      ?>
+        <div class="ligne" style="grid-template-columns:1.1fr 1.4fr .9fr;">
+
+          <div>
+            <div class="code"><?= h($d['reference']) ?></div>
+            <div class="petit"><span class="etiq <?= $classe ?>"><?= h($libelle) ?></span></div>
+            <div class="petit" style="margin-top:6px;">
+              Reçue le <?= h(date_lisible($d['cree_le'])) ?>
+            </div>
+          </div>
+
+          <div>
+            <div><strong><?= h($d['nom']) ?></strong></div>
+            <div class="petit"><?= h($d['email']) ?></div>
+            <?php if ($d['telephone'] !== ''): ?>
+              <div class="petit"><?= h($d['telephone']) ?></div>
+            <?php endif; ?>
+            <div class="petit" style="margin-top:6px;"><?= h($d['formation_nom']) ?></div>
+            <?php if ($d['periode_souhaitee'] !== ''): ?>
+              <div class="petit">Souhaite : <?= h($d['periode_souhaitee']) ?></div>
+            <?php endif; ?>
+          </div>
+
+          <div class="sommes">
+            <div class="restant"><?= h(montant_lisible((int) $d['prix_propose_cents'])) ?></div>
+            <?php if ($d['devis_envoye_le']): ?>
+              <div class="petit">Devis envoyé le <?= h(date_lisible($d['devis_envoye_le'])) ?></div>
+            <?php endif; ?>
+          </div>
+
+          <?php if (trim((string) $d['message']) !== ''): ?>
+            <div style="grid-column:1 / -1;background:#F7EDE9;border-radius:10px;
+                        padding:13px 16px;font-size:14px;">
+              <?= nl2br(h($d['message'])) ?>
+            </div>
+          <?php endif; ?>
+
+          <?php if (trim((string) $d['notes_camille']) !== ''): ?>
+            <div style="grid-column:1 / -1;font-size:13px;color:#6f5f63;">
+              <strong>Ma note :</strong> <?= nl2br(h($d['notes_camille'])) ?>
+            </div>
+          <?php endif; ?>
+
+          <div class="actions" style="grid-column:1 / -1;justify-content:flex-start;">
+
+            <?php if ($d['statut'] === 'nouvelle' || $d['statut'] === 'devis_envoye'): ?>
+              <form method="POST" action="admin.php"
+                    onsubmit="return confirm('Envoyer le devis à <?= h($d['email']) ?> ?');">
+                <input type="hidden" name="jeton" value="<?= h($jeton) ?>">
+                <input type="hidden" name="vue" value="devis">
+                <input type="hidden" name="id" value="<?= (int) $d['id'] ?>">
+                <input type="hidden" name="action" value="devis_envoyer">
+                <input type="text" name="prix" inputmode="decimal"
+                       placeholder="<?= h((string) ((int) $d['prix_propose_cents'] / 100)) ?> €"
+                       aria-label="Tarif du devis <?= h($d['reference']) ?>, en euros">
+                <button type="submit" class="btn btn-primary btn-petit"
+                        <?= $devisManques !== [] ? 'disabled title="Informations légales manquantes"' : '' ?>>
+                  <?= $d['devis_envoye_le'] ? 'Renvoyer le devis' : 'Envoyer le devis' ?>
+                </button>
+              </form>
+            <?php endif; ?>
+
+            <?php if ($d['statut'] !== 'acceptee'): ?>
+              <form method="POST" action="admin.php">
+                <input type="hidden" name="jeton" value="<?= h($jeton) ?>">
+                <input type="hidden" name="vue" value="devis">
+                <input type="hidden" name="id" value="<?= (int) $d['id'] ?>">
+                <input type="hidden" name="action" value="devis_acceptee">
+                <button type="submit" class="btn btn-ghost btn-petit">Formation confirmée</button>
+              </form>
+            <?php endif; ?>
+
+            <?php if ($d['statut'] !== 'sans_suite'): ?>
+              <form method="POST" action="admin.php">
+                <input type="hidden" name="jeton" value="<?= h($jeton) ?>">
+                <input type="hidden" name="vue" value="devis">
+                <input type="hidden" name="id" value="<?= (int) $d['id'] ?>">
+                <input type="hidden" name="action" value="devis_sans_suite">
+                <button type="submit" class="btn btn-ghost btn-petit">Sans suite</button>
+              </form>
+            <?php else: ?>
+              <form method="POST" action="admin.php">
+                <input type="hidden" name="jeton" value="<?= h($jeton) ?>">
+                <input type="hidden" name="vue" value="devis">
+                <input type="hidden" name="id" value="<?= (int) $d['id'] ?>">
+                <input type="hidden" name="action" value="devis_rouvrir">
+                <button type="submit" class="btn btn-ghost btn-petit">Remettre à traiter</button>
+              </form>
+            <?php endif; ?>
+
+            <form method="POST" action="admin.php">
+              <input type="hidden" name="jeton" value="<?= h($jeton) ?>">
+              <input type="hidden" name="vue" value="devis">
+              <input type="hidden" name="id" value="<?= (int) $d['id'] ?>">
+              <input type="hidden" name="action" value="devis_note">
+              <input type="text" name="note" style="width:190px;"
+                     placeholder="Note pour moi-même"
+                     aria-label="Note personnelle sur la demande <?= h($d['reference']) ?>"
+                     value="<?= h($d['notes_camille']) ?>">
+              <button type="submit" class="btn btn-ghost btn-petit">Noter</button>
+            </form>
+
+          </div>
+
+        </div>
+      <?php endforeach; ?>
+      </div>
+    <?php endif; ?>
+
+    <?php endif; /* fin des deux vues */ ?>
 
   </div>
 

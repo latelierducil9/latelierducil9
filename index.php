@@ -87,24 +87,13 @@
         <p>Hello my girl !</p>
         <p>Tu souhaites être indépendante et créer ta propre entreprise d'extension de cils ? Tu souhaites être technicienne de cils ?</p>
         <p>Viens te former au sein de L'atelier du cil à cil, les formations s'étalent sur deux jours (ou plus). Tu bénéficiras d'un carnet de formation, de modèles réels et d'un accompagnement par mes soins. Le montant de la formation s'élève à 495€.</p>
-        <p>Un kit pour débuter au sein de ton activité te sera également mis à disposition, il est compris dans le prix de la formation, celui-ci contient :</p>
-        <ul class="services-list" style="grid-template-columns:1fr;max-width:420px;">
-          <li>Une colle professionnelle London Lash</li>
-          <li>Un ensemble de pinces professionnelles pour cils</li>
-          <li>Une boîte de cils</li>
-          <li>Un shampoing pour cils</li>
-          <li>Des goupillons</li>
-          <li>Des patchs isolants</li>
-        </ul>
-        <p style="font-size:13px;color:var(--ink-soft);">(exemple pour le kit réhaussement de cils)</p>
         <p>Les formations peuvent concerner le réhaussement de cils, le brow lift, la pose d'extensions cil à cil, la pose d'extension volume russe et enfin l'épilation au fil.</p>
         <img src="/assets/formations/formation-cils.jpg" alt="Formation à la pose de cils à l'atelier"
              width="225" height="225" loading="lazy" decoding="async"
              style="max-width:280px;border-radius:12px;margin:16px 0;">
-        <p>Pour bénéficier d'une formation, envoie-moi un message sur mon Instagram
-          <a href="https://www.instagram.com/latelierducilacil" target="_blank" rel="noopener" style="color:var(--pink);font-weight:500;">@latelierducilacil</a>,
-          ou par téléphone au <a href="tel:0612422657" style="color:var(--pink);font-weight:500;">06 12 42 26 57</a>.
-          Nous pourrons dialoguer sur un devis et des dates de formation personnalisées.</p>
+        <p style="margin-bottom:22px;">Le kit de démarrage est compris dans le prix.
+          Découvrez le détail de chaque formation et demandez votre devis en ligne.</p>
+        <a class="btn btn-primary" href="/formations.php">Voir les formations</a>
       </div>
     </div>
   </section>

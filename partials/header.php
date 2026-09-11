@@ -107,7 +107,7 @@ $pageImageUrl = $siteBase . $pageImage;
     <ul class="nav-links" id="navLinks">
       <li><a href="/#apropos">L'atelier</a></li>
       <li><a href="/prestations.php">Prestations</a></li>
-      <li><a href="/#formations">Formations</a></li>
+      <li><a href="/formations.php">Formations</a></li>
       <li><a href="/#tendances">Tendances</a></li>
       <li><a href="/#carte-cadeau">Carte cadeau</a></li>
       <li><a href="/#contact">Contact</a></li>

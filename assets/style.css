@@ -148,6 +148,8 @@
   .menu-tag{font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:#fff;
     background:var(--pink);padding:2px 8px;border-radius:20px;margin-left:6px;vertical-align:middle;font-weight:600;}
   .menu-lead{flex:1;}
+  /* Ligne discrète sous un titre : durée, mention « kit compris »… */
+  .petit-detail{font-size:13px;color:var(--ink-soft);margin:0 0 14px;}
   .menu-price{font-weight:600;color:var(--pink);white-space:nowrap;font-size:15.5px;}
   @media(max-width:760px){.tarif-grid{grid-template-columns:1fr;gap:12px;}}
 
@@ -168,16 +170,22 @@
   .gift-visual .gv-valid{font-size:11px;color:var(--ink-soft);margin-top:14px;white-space:nowrap;}
   @media(max-width:400px){.gift-visual .gv-valid{font-size:9.5px;}}
   .gift-form{padding:40px;}
-  .gift-form label{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  /* Même présentation des libellés pour le formulaire de carte cadeau et
+     celui des demandes de devis : un seul style à maintenir. */
+  .gift-form label,
+  .formulaire label{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;
     color:var(--ink-soft);margin-bottom:8px;font-weight:600;}
   .amount-chips{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;}
   .chip{border:1.5px solid var(--line);background:var(--blush);padding:12px 18px;border-radius:50px;
     font-size:14px;font-weight:500;cursor:pointer;transition:all .15s;color:var(--ink);min-height:44px;}
   .chip.active,.chip:hover{border-color:var(--pink);color:var(--pink);background:#fff;}
   .field{margin-bottom:16px;}
-  .field input,.field textarea{width:100%;padding:12px 14px;border:1.5px solid var(--line);
+  .field input,.field textarea,.field select{width:100%;padding:12px 14px;border:1.5px solid var(--line);
     border-radius:12px;background:var(--blush);font-family:inherit;font-size:14.5px;color:var(--ink);}
-  .field input:focus,.field textarea:focus{border-color:var(--pink);outline:none;background:#fff;}
+  .field input:focus,.field textarea:focus,.field select:focus{border-color:var(--pink);outline:none;background:#fff;}
+  /* min-height garantit une cible confortable au doigt sur téléphone. */
+  .field select{min-height:47px;cursor:pointer;}
+  .field textarea{resize:vertical;}
   .field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
   .gift-total{display:flex;justify-content:space-between;align-items:baseline;padding-top:14px;
     border-top:1px solid var(--line);margin:6px 0 18px;}

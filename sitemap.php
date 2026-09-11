@@ -33,6 +33,7 @@ $majAccueil = @filemtime(__DIR__ . '/index.php') ?: time();
 $pages = [
     ['/', $majAccueil, '1.0'],
     ['/prestations.php', $majPrestations, '0.9'],
+    ['/formations.php', @filemtime(__DIR__ . '/formations-data.php') ?: $majAccueil, '0.8'],
 ];
 
 foreach ($categories as $categorie) {

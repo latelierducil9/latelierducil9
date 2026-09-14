@@ -232,12 +232,14 @@ function creer_tables(PDO $pdo): void
     SQL);
 
     // Demandes de formation. Une ligne est créée dès qu'une candidate
-    // remplit le formulaire. Le site ne propose aucun tarif et n'envoie
-    // aucun devis : Camille reçoit un e-mail et répond elle-même.
+    // remplit le formulaire. Camille reçoit un e-mail et répond depuis
+    // sa boîte mail : il n'y a aucun espace à consulter, et cette table
+    // n'est affichée nulle part.
     //
-    // Cette table ne sert donc qu'à garder une trace. Elle a son utilité
-    // le jour où un e-mail tombe dans les indésirables : la demande, elle,
-    // est toujours là.
+    // Elle sert à deux choses, toutes deux invisibles :
+    //   - compter les envois par appareil, pour bloquer les robots ;
+    //   - garder la demande si l'e-mail se perd en route. Elle reste
+    //     alors récupérable sur le serveur.
     $pdo->exec(<<<SQL
         CREATE TABLE IF NOT EXISTS demandes_formation (
             id                INTEGER PRIMARY KEY AUTOINCREMENT,

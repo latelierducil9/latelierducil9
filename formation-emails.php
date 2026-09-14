@@ -9,18 +9,18 @@
  *    1. Un accusé de réception pour elle, avec sa référence
  *    2. Une alerte pour Camille, avec toutes les coordonnées
  *
- *  C'est tout. Camille répond ensuite elle-même, par e-mail ou par
- *  téléphone : le site ne propose aucun tarif et n'envoie aucun
- *  devis. C'est son choix, et il tient : une formation se discute
- *  au cas par cas.
+ *  C'est tout. Camille répond ensuite elle-même, depuis sa boîte
+ *  mail : le site ne propose aucun tarif, n'envoie aucun devis, et
+ *  il n'y a pas d'espace à consulter. Une demande de formation, pour
+ *  elle, c'est un e-mail auquel elle répond.
  *
  *  Ce fichier ne s'affiche jamais seul : il est inclus par
- *  demande-formation.php et par admin.php.
+ *  demande-formation.php.
  */
 
 declare(strict_types=1);
 
-require_once __DIR__ . '/carte.php';   // pour enveloppe_email() et bouton_email()
+require_once __DIR__ . '/carte.php';   // pour enveloppe_email()
 
 // Sécurité : ouvert directement dans un navigateur, ce fichier ne fait rien.
 if (basename($_SERVER['SCRIPT_FILENAME'] ?? '') === basename(__FILE__)) {
@@ -30,19 +30,7 @@ if (basename($_SERVER['SCRIPT_FILENAME'] ?? '') === basename(__FILE__)) {
 
 
 /* ---------------------------------------------------------------
- *  LECTURE
- * ------------------------------------------------------------- */
-
-function demande_formation_par_id(int $id): ?array
-{
-    $req = bdd()->prepare('SELECT * FROM demandes_formation WHERE id = ?');
-    $req->execute([$id]);
-    return $req->fetch() ?: null;
-}
-
-
-/* ---------------------------------------------------------------
- *  ENVOI 1 — L'ACCUSÉ DE RÉCEPTION
+ *  ENVOI 1 : L'ACCUSÉ DE RÉCEPTION
  * ------------------------------------------------------------- */
 
 function envoyer_accuse_reception(array $demande): bool
@@ -75,7 +63,7 @@ function envoyer_accuse_reception(array $demande): bool
 
 
 /* ---------------------------------------------------------------
- *  ENVOI 2 — L'ALERTE POUR CAMILLE
+ *  ENVOI 2 : L'ALERTE POUR CAMILLE
  * ------------------------------------------------------------- */
 
 function prevenir_institut_demande(array $demande): bool
@@ -86,7 +74,6 @@ function prevenir_institut_demande(array $demande): bool
     }
 
     $destinataire = (string) reglage('resend.copie_institut');
-    $siteUrl      = rtrim((string) reglage('site_url', ''), '/');
 
     $lignes = [
         'Formation'         => $demande['formation_nom'],
@@ -119,8 +106,7 @@ function prevenir_institut_demande(array $demande): bool
         . $motProjet
         . '<p style="margin:20px 0 0;font-size:14px;">Pour lui répondre, il suffit de '
         . 'cliquer sur « Répondre » : le message partira directement vers son adresse.</p>'
-        . bouton_email($siteUrl . '/admin.php?vue=formations', 'Voir toutes les demandes')
-        . '<p style="margin:0;font-size:13px;color:#6f5f63;text-align:center;">'
+        . '<p style="margin:16px 0 0;font-size:13px;color:#6f5f63;">'
         . 'Référence ' . h($demande['reference']) . '</p>';
 
     $texte = "Nouvelle demande de formation\n\n";
@@ -131,8 +117,7 @@ function prevenir_institut_demande(array $demande): bool
         $texte .= "\nSon projet :\n" . $demande['message'] . "\n";
     }
     $texte .= "\nPour lui répondre, cliquez sur « Répondre ».\n\n"
-        . "Référence : {$demande['reference']}\n"
-        . "Toutes les demandes : {$siteUrl}/admin.php?vue=formations\n";
+        . "Référence : {$demande['reference']}\n";
 
     return envoyer_email(
         $destinataire,

@@ -19,7 +19,6 @@
 declare(strict_types=1);
 
 require __DIR__ . '/carte.php';
-require __DIR__ . '/formation-emails.php';
 
 /* ---------------------------------------------------------------
  *  SESSION
@@ -47,12 +46,6 @@ $pdo      = bdd();
 $connecte = ($_SESSION['connecte'] ?? false) === true;
 $message  = '';
 $erreur   = '';
-
-// Deux espaces cohabitent sur cette page : les cartes cadeaux vendues
-// et les demandes de formation. « vue » dit lequel on regarde.
-// On accepte aussi la valeur envoyée par un formulaire, sans quoi une
-// action sur une demande de formation ramènerait aux cartes cadeaux.
-$vue = (($_GET['vue'] ?? $_POST['vue'] ?? '') === 'formations') ? 'formations' : 'cartes';
 
 
 /* ---------------------------------------------------------------
@@ -118,47 +111,6 @@ if ($connecte && ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && isset($_POST['
     // Jeton anti-piège : l'action doit venir d'un vrai clic sur cette page.
     if (!hash_equals((string) ($_SESSION['jeton'] ?? ''), (string) ($_POST['jeton'] ?? ''))) {
         $erreur = 'Action refusée. Merci de recharger la page.';
-
-    } elseif (str_starts_with((string) $_POST['action'], 'demande_')) {
-
-        /* ---- Actions sur une demande de formation ----
-         *
-         * Camille répond elle-même, par e-mail ou par téléphone. Cette
-         * page ne sert donc qu'à suivre : une demande est à traiter, ou
-         * elle est traitée. Rien ne part d'ici.
-         */
-
-        $demande = demande_formation_par_id((int) ($_POST['id'] ?? 0));
-
-        if ($demande === null) {
-            $erreur = 'Demande introuvable.';
-        } else {
-            switch ($_POST['action']) {
-
-                case 'demande_traitee':
-                    $pdo->prepare("UPDATE demandes_formation
-                                      SET statut = 'traitee', traitee_le = ?
-                                    WHERE id = ?")
-                        ->execute([gmdate('Y-m-d H:i:s'), $demande['id']]);
-                    $message = "Demande {$demande['reference']} marquée comme traitée.";
-                    break;
-
-                case 'demande_rouvrir':
-                    $pdo->prepare("UPDATE demandes_formation
-                                      SET statut = 'nouvelle', traitee_le = NULL
-                                    WHERE id = ?")
-                        ->execute([$demande['id']]);
-                    $message = "Demande {$demande['reference']} remise à traiter.";
-                    break;
-
-                case 'demande_note':
-                    $note = nettoyer_texte($_POST['note'] ?? '', 500);
-                    $pdo->prepare('UPDATE demandes_formation SET notes_camille = ? WHERE id = ?')
-                        ->execute([$note, $demande['id']]);
-                    $message = 'Note enregistrée.';
-                    break;
-            }
-        }
 
     } else {
         $carte = carte_par_id((int) ($_POST['id'] ?? 0));
@@ -283,41 +235,6 @@ if ($connecte) {
 }
 
 
-/* ---------------------------------------------------------------
- *  LES DEMANDES DE FORMATION
- * ------------------------------------------------------------- */
-
-$demandes    = [];
-$statsFormas = ['a_traiter' => 0, 'traitees' => 0];
-$filtreForma = 'a_traiter';
-
-if ($connecte) {
-
-    // Le compteur des demandes en attente s'affiche quelle que soit la
-    // vue : Camille doit voir qu'on l'attend même en regardant les cartes.
-    $statsFormas['a_traiter'] = (int) $pdo->query(
-        "SELECT COUNT(*) FROM demandes_formation WHERE statut = 'nouvelle'"
-    )->fetchColumn();
-
-    if ($vue === 'formations') {
-        $filtreForma = (string) ($_GET['etat'] ?? 'a_traiter');
-
-        switch ($filtreForma) {
-            case 'traitees': $ou = "statut = 'traitee'"; break;
-            case 'toutes':   $ou = '1 = 1';              break;
-            default:         $ou = "statut = 'nouvelle'";
-                             $filtreForma = 'a_traiter'; break;
-        }
-
-        $demandes = $pdo->query(
-            "SELECT * FROM demandes_formation WHERE $ou ORDER BY id DESC LIMIT 300"
-        )->fetchAll();
-
-        $statsFormas['traitees'] = (int) $pdo->query(
-            "SELECT COUNT(*) FROM demandes_formation WHERE statut = 'traitee'"
-        )->fetchColumn();
-    }
-}
 
 $jeton = (string) ($_SESSION['jeton'] ?? '');
 ?>
@@ -444,29 +361,19 @@ $jeton = (string) ($_SESSION['jeton'] ?? '');
 
     <div class="tete">
       <div>
-        <h1><?= $vue === 'formations' ? 'Demandes de formation' : 'Cartes cadeaux' ?></h1>
+        <h1>Cartes cadeaux</h1>
         <div class="sous">L'atelier du cil à cil · 53 chemin de Jalloussier, Salvizinet</div>
       </div>
       <a class="btn btn-ghost" href="admin.php?deconnexion=1">Se déconnecter</a>
     </div>
 
-    <div class="onglets" style="margin-bottom:22px;">
-      <a class="onglet<?= $vue === 'cartes' ? ' actif' : '' ?>" href="admin.php">Cartes cadeaux</a>
-      <a class="onglet<?= $vue === 'formations' ? ' actif' : '' ?>" href="admin.php?vue=formations">
-        Formations<?= $statsFormas['a_traiter'] > 0 ? ' · ' . $statsFormas['a_traiter'] : '' ?>
-      </a>
-    </div>
-
-    <?php /* Ce bandeau ne concerne que les cartes cadeaux : il parle de Stripe. */ ?>
-    <?php if ($vue === 'cartes' && mode_simulation()): ?>
+    <?php if (mode_simulation()): ?>
       <div class="avis ok"><strong>Mode simulation.</strong> Aucun paiement ni e-mail réel
         n'est traité tant que les clés Stripe ne sont pas renseignées.</div>
     <?php endif; ?>
 
     <?php if ($message !== ''): ?><div class="avis ok"><?= h($message) ?></div><?php endif; ?>
     <?php if ($erreur  !== ''): ?><div class="avis ko"><?= h($erreur)  ?></div><?php endif; ?>
-
-    <?php if ($vue === 'cartes'): ?>
 
     <div class="chiffres">
       <div class="chiffre">
@@ -609,129 +516,6 @@ $jeton = (string) ($_SESSION['jeton'] ?? '');
       </div>
     <?php endif; ?>
 
-    <?php else: /* ---------- LES DEMANDES DE FORMATION ---------- */ ?>
-
-    <?php
-    /*
-     * Cette liste ne sert qu'à suivre. Les demandes arrivent par e-mail
-     * et Camille y répond elle-même : rien ne part d'ici. La liste a
-     * malgré tout son utilité le jour où un e-mail se perd dans les
-     * indésirables, la demande, elle, est toujours là.
-     */
-    ?>
-    <div class="chiffres">
-      <div class="chiffre<?= $statsFormas['a_traiter'] > 0 ? ' alerte' : '' ?>">
-        <div class="cle">À traiter</div>
-        <div class="val"><?= $statsFormas['a_traiter'] ?></div>
-      </div>
-      <div class="chiffre">
-        <div class="cle">Traitées</div>
-        <div class="val"><?= $statsFormas['traitees'] ?></div>
-      </div>
-    </div>
-
-    <div class="outils">
-      <div class="onglets">
-        <?php
-        $etatsOk = [
-            'a_traiter' => 'À traiter',
-            'traitees'  => 'Traitées',
-            'toutes'    => 'Toutes',
-        ];
-        foreach ($etatsOk as $cle => $libelle) {
-            echo '<a class="onglet' . ($filtreForma === $cle ? ' actif' : '')
-                . '" href="admin.php?vue=formations&amp;etat=' . h($cle) . '">'
-                . h($libelle) . '</a>';
-        }
-        ?>
-      </div>
-    </div>
-
-    <?php if ($demandes === []): ?>
-      <div class="vide">Aucune demande dans cette catégorie pour le moment.</div>
-    <?php else: ?>
-      <div class="liste">
-      <?php foreach ($demandes as $d):
-          $traitee = $d['statut'] === 'traitee';
-          [$classe, $libelle] = $traitee ? ['finie', 'Traitée'] : ['attente', 'À traiter'];
-
-          // Lien « Répondre » : ouvre le logiciel de messagerie avec
-          // l'adresse et l'objet déjà remplis, il ne reste qu'à écrire.
-          $sujet = rawurlencode('Votre demande de formation ' . $d['reference']);
-      ?>
-        <div class="ligne" style="grid-template-columns:1.1fr 1.6fr;">
-
-          <div>
-            <div class="code"><?= h($d['reference']) ?></div>
-            <div class="petit"><span class="etiq <?= $classe ?>"><?= h($libelle) ?></span></div>
-            <div class="petit" style="margin-top:6px;">
-              Reçue le <?= h(date_lisible($d['cree_le'])) ?>
-            </div>
-            <?php if ($traitee && $d['traitee_le']): ?>
-              <div class="petit">Traitée le <?= h(date_lisible($d['traitee_le'])) ?></div>
-            <?php endif; ?>
-          </div>
-
-          <div>
-            <div><strong><?= h($d['nom']) ?></strong></div>
-            <div class="petit"><a href="mailto:<?= h($d['email']) ?>?subject=<?= $sujet ?>"><?= h($d['email']) ?></a></div>
-            <?php if ($d['telephone'] !== ''): ?>
-              <div class="petit"><a href="tel:<?= h(preg_replace('/[^0-9+]/', '', $d['telephone']) ?? '') ?>"><?= h($d['telephone']) ?></a></div>
-            <?php endif; ?>
-            <div class="petit" style="margin-top:6px;"><?= h($d['formation_nom']) ?></div>
-            <?php if ($d['periode_souhaitee'] !== ''): ?>
-              <div class="petit">Souhaite : <?= h($d['periode_souhaitee']) ?></div>
-            <?php endif; ?>
-          </div>
-
-          <?php if (trim((string) $d['message']) !== ''): ?>
-            <div style="grid-column:1 / -1;background:#F7EDE9;border-radius:10px;
-                        padding:13px 16px;font-size:14px;">
-              <?= nl2br(h($d['message'])) ?>
-            </div>
-          <?php endif; ?>
-
-          <?php if (trim((string) $d['notes_camille']) !== ''): ?>
-            <div style="grid-column:1 / -1;font-size:13px;color:#6f5f63;">
-              <strong>Ma note :</strong> <?= nl2br(h($d['notes_camille'])) ?>
-            </div>
-          <?php endif; ?>
-
-          <div class="actions" style="grid-column:1 / -1;justify-content:flex-start;">
-
-            <a class="btn btn-primary btn-petit"
-               href="mailto:<?= h($d['email']) ?>?subject=<?= $sujet ?>">Répondre</a>
-
-            <form method="POST" action="admin.php">
-              <input type="hidden" name="jeton" value="<?= h($jeton) ?>">
-              <input type="hidden" name="vue" value="formations">
-              <input type="hidden" name="id" value="<?= (int) $d['id'] ?>">
-              <input type="hidden" name="action" value="<?= $traitee ? 'demande_rouvrir' : 'demande_traitee' ?>">
-              <button type="submit" class="btn btn-ghost btn-petit">
-                <?= $traitee ? 'Remettre à traiter' : 'Marquer comme traitée' ?>
-              </button>
-            </form>
-
-            <form method="POST" action="admin.php">
-              <input type="hidden" name="jeton" value="<?= h($jeton) ?>">
-              <input type="hidden" name="vue" value="formations">
-              <input type="hidden" name="id" value="<?= (int) $d['id'] ?>">
-              <input type="hidden" name="action" value="demande_note">
-              <input type="text" name="note" style="width:190px;"
-                     placeholder="Note pour moi-même"
-                     aria-label="Note personnelle sur la demande <?= h($d['reference']) ?>"
-                     value="<?= h($d['notes_camille']) ?>">
-              <button type="submit" class="btn btn-ghost btn-petit">Noter</button>
-            </form>
-
-          </div>
-
-        </div>
-      <?php endforeach; ?>
-      </div>
-    <?php endif; ?>
-
-    <?php endif; /* fin des deux vues */ ?>
 
   </div>
 

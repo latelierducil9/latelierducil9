@@ -102,35 +102,34 @@ require __DIR__ . '/partials/header.php';
       <p>À Feurs et à Saint-Étienne, à partir de <?= h($prixDepart) ?>, kit compris.</p>
     </div>
 
-    <div class="tarif-grid">
-      <div class="tarif-col">
-        <?php foreach ($formations as $formation): ?>
-          <div class="menu-item" style="<?= trim((string) $formation['resume']) !== '' || !empty($formation['programme']) ? 'border-bottom:none;padding-bottom:4px;' : '' ?>">
-            <span class="menu-name" style="font-weight:500;"><?= h($formation['nom']) ?></span>
-            <span class="menu-lead"></span>
-            <?php if (trim((string) $formation['duree']) !== ''): ?>
-              <span class="menu-price" style="font-weight:400;color:var(--ink-soft);"><?= h($formation['duree']) ?></span>
-            <?php endif; ?>
-          </div>
+    <div class="formations-liste">
+      <?php foreach ($formations as $formation): ?>
+        <div>
+          <h3><?= h($formation['nom']) ?></h3>
+
+          <?php /* Ces trois blocs ne s'affichent que s'ils sont remplis
+                   dans formations-data.php : la page ne montre jamais
+                   une ligne vide. */ ?>
+          <?php if (trim((string) $formation['duree']) !== ''): ?>
+            <p class="duree"><?= h($formation['duree']) ?></p>
+          <?php endif; ?>
 
           <?php if (trim((string) $formation['resume']) !== ''): ?>
-            <p style="font-size:14.5px;color:var(--ink-soft);margin:0 0 10px;">
-              <?= h($formation['resume']) ?>
-            </p>
+            <p><?= h($formation['resume']) ?></p>
           <?php endif; ?>
 
           <?php if (!empty($formation['programme'])): ?>
-            <ul class="services-list" style="grid-template-columns:1fr;margin-bottom:18px;">
+            <ul>
               <?php foreach ($formation['programme'] as $point): ?>
                 <li><?= h($point) ?></li>
               <?php endforeach; ?>
             </ul>
           <?php endif; ?>
-        <?php endforeach; ?>
-      </div>
+        </div>
+      <?php endforeach; ?>
     </div>
 
-    <p class="petit-detail" style="margin-top:18px;">
+    <p class="petit-detail" style="margin-top:30px;">
       Le tarif dépend de la formation choisie et de votre niveau de départ.
       Camille vous le précise en vous répondant.
     </p>

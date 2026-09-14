@@ -34,13 +34,18 @@
  *    - « Formation à partir de 355€ »
  *    - « les formations se font à Feurs et à saint Étienne »
  *
+ *  Les 'resume' sont des PROPOSITIONS, à faire valider par Camille.
+ *  Ils ne décrivent que la technique elle-même, reformulée à partir
+ *  des descriptions qu'elle a écrites pour ses prestations : ce
+ *  qu'est un réhaussement, ce qu'est un brow lift, ce qu'est un
+ *  volume russe. Rien sur la pédagogie.
+ *
  *  Restent VOLONTAIREMENT VIDES, en attendant ses réponses :
- *    - 'resume'    : la phrase de présentation de chaque formation
- *    - 'programme' : ce qui est réellement enseigné
+ *    - 'programme' : ce qui est réellement enseigné, heure par heure
  *    - 'duree'     : elle n'a pas confirmé la durée de chacune
  *
- *  Rien n'a été inventé à sa place : une formation est un
- *  engagement commercial, annoncer un contenu approximatif
+ *  Ces deux-là, elle seule les connaît. Une formation est un
+ *  engagement commercial : annoncer un programme approximatif
  *  l'exposerait. Tant qu'un champ est vide, la page ne l'affiche
  *  tout simplement pas.
  *
@@ -58,7 +63,9 @@ return [
         'nom'        => 'Réhaussement de cils et teinture',
         'prix_cents' => 35500,
         'duree'      => '',
-        'resume'     => '',
+        'resume'     => 'La permanente qui révèle la courbure du cil naturel, puis la '
+            . 'teinture qui donne l\'effet mascara. Tout se fait sur les cils '
+            . 'de la cliente, sans aucune extension.',
         'programme'  => [],
     ],
 
@@ -67,7 +74,9 @@ return [
         'nom'        => 'Brow lift, épilation et teinture',
         'prix_cents' => 35500,
         'duree'      => '',
-        'resume'     => '',
+        'resume'     => 'Le même principe que le réhaussement, mais pour les sourcils : '
+            . 'dresser le poil, le teindre pour éclaircir le regard, puis '
+            . 'dessiner la ligne à l\'épilation au fil.',
         'programme'  => [],
     ],
 
@@ -76,7 +85,9 @@ return [
         'nom'        => 'Épilation au fil',
         'prix_cents' => 35500,
         'duree'      => '',
-        'resume'     => '',
+        'resume'     => 'Deux fils noués, et rien d\'autre : ni cire, ni chaleur, ni '
+            . 'rougeur. La technique s\'apprend sur les sourcils comme sur le '
+            . 'reste du visage.',
         'programme'  => [],
     ],
 
@@ -85,7 +96,9 @@ return [
         'nom'        => 'Extension de cil à cil',
         'prix_cents' => 35500,
         'duree'      => '',
-        'resume'     => '',
+        'resume'     => 'Une extension collée sur un cil naturel, un cil à la fois. Le '
+            . 'rendu reste très naturel : le regard s\'ouvre, les cils '
+            . 'paraissent plus longs et plus fournis.',
         'programme'  => [],
     ],
 
@@ -94,7 +107,9 @@ return [
         'nom'        => 'Extension de cil volume russe',
         'prix_cents' => 35500,
         'duree'      => '',
-        'resume'     => '',
+        'resume'     => 'Plusieurs poils très fins posés en bouquet sur un seul cil '
+            . 'naturel, pour densifier nettement le regard. La pose se module '
+            . 'selon l\'envie de la cliente, du très léger au chargé.',
         'programme'  => [],
     ],
 

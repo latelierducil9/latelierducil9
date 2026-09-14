@@ -161,14 +161,12 @@ function envoyer_emails_carte(array $carte): bool
     );
 
     // 3. L'institut.
-    if (est_rempli('resend.copie_institut')) {
-        envoyer_email(
-            (string) reglage('resend.copie_institut'),
-            'Nouvelle carte cadeau vendue : ' . montant_lisible((int) $carte['montant_cents']),
-            email_institut_html($carte),
-            email_institut_texte($carte)
-        );
-    }
+    envoyer_email(
+        adresse_institut(),
+        'Nouvelle carte cadeau vendue : ' . montant_lisible((int) $carte['montant_cents']),
+        email_institut_html($carte),
+        email_institut_texte($carte)
+    );
 
     if (!$ok) {
         journal("E-mail carte {$carte['code']} NON remis à {$carte['pour_email']}");

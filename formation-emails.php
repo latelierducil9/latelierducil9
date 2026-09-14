@@ -69,12 +69,10 @@ function envoyer_accuse_reception(array $demande): bool
 
 function prevenir_institut_demande(array $demande): bool
 {
-    if (!est_rempli('resend.copie_institut')) {
-        journal("Pas d'adresse institut : candidature {$demande['reference']} non signalée.");
-        return false;
-    }
-
-    $destinataire = (string) reglage('resend.copie_institut');
+    // adresse_institut() retombe sur l'adresse publique du salon si
+    // config.php n'en donne pas : une candidature ne doit jamais
+    // rester sans destinataire.
+    $destinataire = adresse_institut();
 
     $lignes = [
         'Formation' => $demande['formation_nom'],

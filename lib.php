@@ -28,6 +28,21 @@ const DOSSIER_DONNEES = __DIR__ . '/data';
 const FICHIER_BDD     = DOSSIER_DONNEES . '/cartes.sqlite';
 const FICHIER_LOG     = DOSSIER_DONNEES . '/erreurs.log';
 
+/*
+ * L'adresse de secours de l'institut.
+ *
+ * Normalement, l'adresse qui reçoit les candidatures et les ventes est
+ * celle de config.php (resend.copie_institut). Mais ce fichier vit sur
+ * le serveur, hors de Git : si la ligne y est oubliée, le site n'a plus
+ * personne à prévenir et les messages disparaissent en silence.
+ *
+ * Celle-ci prend alors le relais. Ce n'est pas un secret : c'est
+ * l'adresse publique du salon, déjà affichée dans la section Contact de
+ * la page d'accueil. Mieux vaut un e-mail qui arrive sur la boîte du
+ * salon que pas d'e-mail du tout.
+ */
+const ADRESSE_INSTITUT_SECOURS = 'latelierducil9@gmail.com';
+
 
 /* ---------------------------------------------------------------
  *  1. LES RÉGLAGES (config.php)
@@ -104,6 +119,21 @@ function est_rempli(string $chemin): bool
 {
     $v = reglage($chemin);
     return is_string($v) && $v !== '' && !str_starts_with($v, 'À_REMPLIR');
+}
+
+/**
+ * L'adresse qui reçoit tout ce que le site adresse à l'institut :
+ * les candidatures aux formations, les ventes de cartes cadeaux, et
+ * les réponses des clientes.
+ *
+ * Le réglage de config.php d'abord ; s'il manque, l'adresse publique
+ * du salon, pour qu'aucun message ne se perde.
+ */
+function adresse_institut(): string
+{
+    return est_rempli('resend.copie_institut')
+        ? (string) reglage('resend.copie_institut')
+        : ADRESSE_INSTITUT_SECOURS;
 }
 
 /**
@@ -494,10 +524,8 @@ function envoyer_email(string $destinataire, string $sujet, string $html, string
         'text'    => $texte,
     ];
 
-    // Les réponses des clients arrivent directement chez l'institut.
-    if (est_rempli('resend.copie_institut')) {
-        $corps['reply_to'] = [(string) reglage('resend.copie_institut')];
-    }
+    // Les réponses des clientes arrivent directement chez l'institut.
+    $corps['reply_to'] = [adresse_institut()];
 
     [$httpCode, $reponse] = appel_api(
         'https://api.resend.com/emails',

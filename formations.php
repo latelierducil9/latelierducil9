@@ -61,10 +61,13 @@ require __DIR__ . '/partials/header.php';
         <li>Des goupillons</li>
         <li>Des patchs isolants</li>
       </ul>
-      <p style="font-size:13px;color:var(--ink-soft);">(exemple pour le kit réhaussement de cils)</p>
-      <img src="/assets/formations/formation-cils.jpg" alt="Formation à la pose de cils à l'atelier"
-           width="225" height="225" loading="lazy" decoding="async"
-           style="max-width:280px;border-radius:12px;margin:16px 0;">
+      <?php /* La photo et le bouton côte à côte, empilés sur téléphone. */ ?>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:26px;margin-top:20px;">
+        <img src="/assets/formations/formation-cils.jpg" alt="Formation à la pose de cils à l'atelier"
+             width="225" height="225" loading="lazy" decoding="async"
+             style="width:225px;max-width:100%;border-radius:12px;">
+        <a class="btn btn-primary" href="/candidature.php">Se former</a>
+      </div>
     </div>
   </div>
 </section>
@@ -74,14 +77,14 @@ require __DIR__ . '/partials/header.php';
     <div class="section-head">
       <p class="eyebrow">Au choix</p>
       <h2>Les formations proposées</h2>
-      <p>À Feurs et à Saint-Étienne, à partir de <?= h($prixDepart) ?>, kit compris. Cliquez sur une formation pour en voir le détail et postuler.</p>
+      <p>À Feurs et à Saint-Étienne, à partir de <?= h($prixDepart) ?>, kit compris. Cliquez sur une formation pour vous y inscrire.</p>
     </div>
 
     <div class="tarif-grid">
       <div class="tarif-col" style="max-width:520px;">
         <?php foreach ($formations as $f): ?>
           <?php $prixLigne = str_replace(' €', '€', montant_lisible((int) $f['prix_cents'])); ?>
-          <a class="menu-item menu-item-link" href="/formation.php?f=<?= urlencode($f['slug']) ?>">
+          <a class="menu-item menu-item-link" href="/candidature.php?f=<?= urlencode($f['slug']) ?>">
             <span class="menu-name"><?= h($f['nom']) ?></span>
             <span class="menu-lead"></span>
             <span class="menu-price"><?= h($prixLigne) ?></span>
@@ -93,6 +96,10 @@ require __DIR__ . '/partials/header.php';
     <p class="petit-detail" style="margin-top:20px;">
       Le tarif dépend de la formation choisie et de votre niveau de départ.
       Camille vous le précise en vous répondant.
+    </p>
+
+    <p style="margin-top:22px;">
+      <a class="btn btn-primary" href="/candidature.php">Se former</a>
     </p>
   </div>
 </section>

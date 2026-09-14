@@ -1,37 +1,46 @@
 <?php
 /**
  * ===============================================================
- *  LE PETIT FORMULAIRE DE CANDIDATURE À UNE FORMATION
+ *  LE FORMULAIRE DE CANDIDATURE À UNE FORMATION
  * ===============================================================
  *
- *  Un seul formulaire, affiché sur la fiche de chaque formation.
- *  Il est écrit ici plutôt que recopié sur chaque page : le jour où
- *  une question change, elle ne change qu'à un seul endroit.
+ *  Un formulaire de contact simple : la candidate choisit sa
+ *  formation dans un sélecteur, laisse ses coordonnées, et Camille
+ *  reçoit sa fiche par e-mail.
  *
- *  Volontairement réduit à quatre champs : prénom, nom, e-mail,
- *  téléphone. La formation n'a pas à être choisie ici, elle l'est
- *  déjà en cliquant dessus depuis formations.php : elle voyage dans
- *  un champ caché.
+ *  Deux variables peuvent exister avant de l'inclure :
  *
- *  Une variable doit exister avant de l'inclure :
- *
- *    $slugChoisi   la formation demandée, pour le champ caché
+ *    $formations   la liste complète (formations-data.php)
+ *    $slugChoisi   la formation déjà sélectionnée, si la candidate
+ *                  est arrivée en cliquant sur l'une d'elles
  *
  *  Ce fichier ne s'affiche jamais seul.
  */
 
 declare(strict_types=1);
 
-if (!isset($slugChoisi) || $slugChoisi === '') {
+if (!isset($formations)) {
     return;
 }
+$slugChoisi = (string) ($slugChoisi ?? '');
 ?>
 
 <form class="formulaire" action="/demande-formation.php" method="post"
       style="max-width:520px;background:var(--paper);border:1px solid var(--line);
              border-radius:20px;padding:30px;">
 
-  <input type="hidden" name="formation" value="<?= h($slugChoisi) ?>">
+  <div class="field">
+    <label for="formation">La formation qui vous intéresse</label>
+    <select id="formation" name="formation" required>
+      <option value="">Choisissez une formation</option>
+      <?php foreach ($formations as $uneFormation): ?>
+        <option value="<?= h($uneFormation['slug']) ?>"
+                <?= $uneFormation['slug'] === $slugChoisi ? 'selected' : '' ?>>
+          <?= h($uneFormation['nom']) ?>
+        </option>
+      <?php endforeach; ?>
+    </select>
+  </div>
 
   <div class="field-row">
     <div class="field">

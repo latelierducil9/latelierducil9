@@ -163,17 +163,10 @@ if (!prevenir_institut_demande($demande)) {
 
 
 /* ---------------------------------------------------------------
- *  7. RETOUR SUR LA FICHE
+ *  7. RETOUR SUR LE FORMULAIRE
  * ------------------------------------------------------------- */
 
 // Une redirection plutôt qu'un affichage direct : ainsi, si la
 // candidate actualise la page, elle ne renvoie pas sa candidature.
-// Elle retombe sur la fiche de LA formation choisie, pas sur la
-// liste générale : c'est là que se trouvait le formulaire.
-header(
-    'Location: /formation.php?f=' . urlencode($formation['slug'])
-        . '&recue=' . urlencode($reference) . '#inscription',
-    true,
-    303
-);
+header('Location: /candidature.php?recue=' . urlencode($reference), true, 303);
 exit;

@@ -44,10 +44,9 @@ foreach ($categories as $categorie) {
     }
 }
 
-$formations = require __DIR__ . '/formations-data.php';
-foreach ($formations as $formation) {
-    $pages[] = ['/formation.php?f=' . rawurlencode($formation['slug']), $majFormations, '0.7'];
-}
+// La page du formulaire, une seule adresse : le sélecteur de formation
+// s'y règle par un paramètre, ce qui ne crée pas une page de plus.
+$pages[] = ['/candidature.php', @filemtime(__DIR__ . '/candidature.php') ?: $majFormations, '0.7'];
 
 echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
 ?>

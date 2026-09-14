@@ -93,7 +93,7 @@
              style="max-width:280px;border-radius:12px;margin:16px 0;">
         <p style="margin-bottom:22px;">Le kit de démarrage est compris dans le prix.
           Découvrez le détail de chaque formation et inscrivez-vous en ligne.</p>
-        <a class="btn btn-primary" href="/formations.php">Voir les formations</a>
+        <a class="btn btn-primary" href="/formations.php">Se former</a>
       </div>
     </div>
   </section>

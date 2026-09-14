@@ -1,18 +1,19 @@
 <?php
 /**
  * ===============================================================
- *  LES E-MAILS D'UNE DEMANDE DE FORMATION
+ *  LES E-MAILS D'UNE CANDIDATURE À UNE FORMATION
  * ===============================================================
  *
- *  Deux envois, au moment où une candidate remplit le formulaire :
+ *  Deux envois, au moment où une candidate remplit le petit
+ *  formulaire d'une fiche formation :
  *
  *    1. Un accusé de réception pour elle, avec sa référence
- *    2. Une alerte pour Camille, avec toutes les coordonnées
+ *    2. Sa fiche pour Camille : formation, nom, e-mail, téléphone
  *
  *  C'est tout. Camille répond ensuite elle-même, depuis sa boîte
  *  mail : le site ne propose aucun tarif, n'envoie aucun devis, et
- *  il n'y a pas d'espace à consulter. Une demande de formation, pour
- *  elle, c'est un e-mail auquel elle répond.
+ *  il n'y a pas d'espace à consulter. Une candidature, pour elle,
+ *  c'est un e-mail auquel elle répond.
  *
  *  Ce fichier ne s'affiche jamais seul : il est inclus par
  *  demande-formation.php.
@@ -35,8 +36,8 @@ if (basename($_SERVER['SCRIPT_FILENAME'] ?? '') === basename(__FILE__)) {
 
 function envoyer_accuse_reception(array $demande): bool
 {
-    $contenu = '<p style="margin:0 0 16px;">Bonjour ' . h($demande['nom']) . ',</p>'
-        . '<p style="margin:0 0 16px;">Votre demande concernant la formation '
+    $contenu = '<p style="margin:0 0 16px;">Bonjour ' . h($demande['prenom']) . ',</p>'
+        . '<p style="margin:0 0 16px;">Votre candidature pour la formation '
         . '<strong>' . h($demande['formation_nom']) . '</strong> est bien arrivée.</p>'
         . '<p style="margin:0 0 20px;">Camille vous recontacte personnellement pour '
         . 'parler de votre projet, des dates possibles et du tarif adapté à votre '
@@ -45,17 +46,17 @@ function envoyer_accuse_reception(array $demande): bool
         . '<p style="margin:20px 0 0;font-size:14px;color:#6f5f63;">'
         . 'Une question d\'ici là ? Répondez simplement à cet e-mail.</p>';
 
-    $texte = "Bonjour {$demande['nom']},\n\n"
-        . "Votre demande concernant la formation « {$demande['formation_nom']} » "
+    $texte = "Bonjour {$demande['prenom']},\n\n"
+        . "Votre candidature pour la formation « {$demande['formation_nom']} » "
         . "est bien arrivée.\n\n"
         . "Camille vous recontacte personnellement pour parler de votre projet, "
         . "des dates possibles et du tarif adapté à votre situation.\n\n"
-        . "Référence de votre demande : {$demande['reference']}\n\n"
+        . "Référence de votre candidature : {$demande['reference']}\n\n"
         . "Une question d'ici là ? Répondez simplement à cet e-mail.\n";
 
     return envoyer_email(
         $demande['email'],
-        'Votre demande de formation est bien arrivée',
+        'Votre candidature est bien arrivée',
         enveloppe_email($contenu),
         $texte
     );
@@ -63,24 +64,23 @@ function envoyer_accuse_reception(array $demande): bool
 
 
 /* ---------------------------------------------------------------
- *  ENVOI 2 : L'ALERTE POUR CAMILLE
+ *  ENVOI 2 : LA FICHE DE LA CANDIDATE, POUR CAMILLE
  * ------------------------------------------------------------- */
 
 function prevenir_institut_demande(array $demande): bool
 {
     if (!est_rempli('resend.copie_institut')) {
-        journal("Pas d'adresse institut : demande {$demande['reference']} non signalée.");
+        journal("Pas d'adresse institut : candidature {$demande['reference']} non signalée.");
         return false;
     }
 
     $destinataire = (string) reglage('resend.copie_institut');
 
     $lignes = [
-        'Formation'         => $demande['formation_nom'],
-        'Nom'               => $demande['nom'],
-        'E-mail'            => $demande['email'],
-        'Téléphone'         => $demande['telephone'] !== '' ? $demande['telephone'] : 'non renseigné',
-        'Période souhaitée' => $demande['periode_souhaitee'] !== '' ? $demande['periode_souhaitee'] : 'non précisée',
+        'Formation' => $demande['formation_nom'],
+        'Nom'       => $demande['nom_complet'],
+        'E-mail'    => $demande['email'],
+        'Téléphone' => $demande['telephone'] !== '' ? $demande['telephone'] : 'non renseigné',
     ];
 
     $tableau = '';
@@ -92,36 +92,27 @@ function prevenir_institut_demande(array $demande): bool
             . '</tr>';
     }
 
-    $motProjet = trim((string) $demande['message']) !== ''
-        ? '<p style="margin:18px 0 0;padding:14px 16px;background:#F7EDE9;border-radius:10px;'
-          . 'font-size:14px;line-height:1.6;">' . nl2br(h($demande['message'])) . '</p>'
-        : '';
-
     $contenu = '<p style="margin:0 0 6px;font-size:13px;letter-spacing:1.6px;'
-        . 'text-transform:uppercase;color:#c9a24a;">Nouvelle demande</p>'
+        . 'text-transform:uppercase;color:#c9a24a;">Nouvelle candidature</p>'
         . '<p style="margin:0 0 20px;font-size:17px;font-weight:bold;">'
-        . h($demande['nom']) . ' souhaite se former</p>'
+        . h($demande['nom_complet']) . ' souhaite se former</p>'
         . '<table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;">'
         . $tableau . '</table>'
-        . $motProjet
-        . '<p style="margin:20px 0 0;font-size:14px;">Pour lui répondre, il suffit de '
+        . '<p style="margin:20px 0 0;font-size:14px;">Pour la recontacter, il suffit de '
         . 'cliquer sur « Répondre » : le message partira directement vers son adresse.</p>'
         . '<p style="margin:16px 0 0;font-size:13px;color:#6f5f63;">'
         . 'Référence ' . h($demande['reference']) . '</p>';
 
-    $texte = "Nouvelle demande de formation\n\n";
+    $texte = "Nouvelle candidature\n\n";
     foreach ($lignes as $cle => $valeur) {
         $texte .= "$cle : $valeur\n";
     }
-    if (trim((string) $demande['message']) !== '') {
-        $texte .= "\nSon projet :\n" . $demande['message'] . "\n";
-    }
-    $texte .= "\nPour lui répondre, cliquez sur « Répondre ».\n\n"
+    $texte .= "\nPour la recontacter, cliquez sur « Répondre ».\n\n"
         . "Référence : {$demande['reference']}\n";
 
     return envoyer_email(
         $destinataire,
-        'Demande de formation : ' . $demande['nom'],
+        'Nouvelle candidature : ' . $demande['nom_complet'],
         enveloppe_email($contenu),
         $texte
     );
@@ -132,14 +123,14 @@ function prevenir_institut_demande(array $demande): bool
  *  PETIT MORCEAU PARTAGÉ
  * ------------------------------------------------------------- */
 
-/** Le pavé beige qui rappelle la référence d'une demande. */
+/** Le pavé beige qui rappelle la référence d'une candidature. */
 function bloc_reference(string $reference): string
 {
     return '<table role="presentation" cellpadding="0" cellspacing="0" '
         . 'style="width:100%;background:#F7EDE9;border-radius:12px;"><tr>'
         . '<td align="center" style="padding:18px;">'
         . '<div style="font-size:11px;letter-spacing:1.8px;text-transform:uppercase;color:#6f5f63;">'
-        . 'Référence de votre demande</div>'
+        . 'Référence de votre candidature</div>'
         . '<div style="font-family:\'Courier New\',monospace;font-size:19px;font-weight:bold;'
         . 'letter-spacing:2px;color:#1A1416;padding-top:7px;">' . h($reference) . '</div>'
         . '</td></tr></table>';

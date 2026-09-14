@@ -261,6 +261,17 @@ function creer_tables(PDO $pdo): void
     $pdo->exec('CREATE INDEX IF NOT EXISTS idx_demandes_formation_statut
                 ON demandes_formation (statut)');
 
+    // Mise à jour douce : le formulaire de candidature demande
+    // maintenant le prénom séparément du nom. Une base créée avant
+    // cette version reçoit la colonne, vide pour les lignes déjà là.
+    // Les colonnes periode_souhaitee et message, elles, restent en
+    // place mais ne reçoivent plus rien : les retirer n'apporterait
+    // rien et risquerait la table pour rien.
+    $colonnesFormation = $pdo->query('PRAGMA table_info(demandes_formation)')->fetchAll();
+    if (!in_array('prenom', array_column($colonnesFormation, 'name'), true)) {
+        $pdo->exec("ALTER TABLE demandes_formation ADD COLUMN prenom TEXT NOT NULL DEFAULT ''");
+    }
+
     // Mise à jour douce : ajoute la colonne du solde restant si une
     // base créée avant cette version ne l'a pas encore.
     $colonnes = $pdo->query('PRAGMA table_info(cartes)')->fetchAll();

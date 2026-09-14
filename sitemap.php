@@ -25,21 +25,28 @@ $hote = preg_replace('/[^A-Za-z0-9.\-:]/', '', $_SERVER['HTTP_HOST'] ?? '') ?: '
 $base = ($https ? 'https://' : 'http://') . $hote;
 
 // La date du fichier de données sert de « dernière mise à jour » pour les
-// fiches : elle change dès que Camille modifie une prestation.
+// fiches : elle change dès que Camille modifie une prestation ou une
+// formation.
 $majPrestations = @filemtime(__DIR__ . '/prestations-data.php') ?: time();
-$majAccueil = @filemtime(__DIR__ . '/index.php') ?: time();
+$majAccueil     = @filemtime(__DIR__ . '/index.php') ?: time();
+$majFormations  = @filemtime(__DIR__ . '/formations-data.php') ?: $majAccueil;
 
 /** @var array<int, array{0:string, 1:int, 2:string}> $pages url, date, priorité */
 $pages = [
     ['/', $majAccueil, '1.0'],
     ['/prestations.php', $majPrestations, '0.9'],
-    ['/formations.php', @filemtime(__DIR__ . '/formations-data.php') ?: $majAccueil, '0.8'],
+    ['/formations.php', $majFormations, '0.8'],
 ];
 
 foreach ($categories as $categorie) {
     foreach ($categorie['prestations'] as $prestation) {
         $pages[] = ['/prestation.php?p=' . rawurlencode($prestation['slug']), $majPrestations, '0.8'];
     }
+}
+
+$formations = require __DIR__ . '/formations-data.php';
+foreach ($formations as $formation) {
+    $pages[] = ['/formation.php?f=' . rawurlencode($formation['slug']), $majFormations, '0.7'];
 }
 
 echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";

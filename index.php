@@ -2,9 +2,9 @@
   <section class="hero">
     <div class="wrap">
       <div>
-        <p class="eyebrow">Lash · Brow &amp; Beauty — Salvizinet</p>
+        <p class="eyebrow">Lash · Brow &amp; Beauty · Salvizinet</p>
         <h1>La beauté<br>de votre <span class="script">regard</span></h1>
-        <p class="lede">Réhaussement, extensions cil à cil, volume russe, sourcils et blanchiment dentaire. Camille redessine votre regard au 53 chemin de Jalloussier — et à Feurs sur demande.</p>
+        <p class="lede">Réhaussement, extensions cil à cil, volume russe, sourcils et blanchiment dentaire. Camille redessine votre regard au 53 chemin de Jalloussier, à Salvizinet.</p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="https://book.squareup.com/appointments/6gl1qk9h445g0l/location/LBS84WWAYQ6ES/services" target="_blank" rel="noopener">Prendre rendez-vous</a>
           <a class="btn btn-ghost" href="#carte-cadeau">Offrir une carte cadeau</a>
@@ -24,11 +24,11 @@
         <div class="bio-text">
           <p class="eyebrow">Le portrait</p>
           <h2 style="font-family:'Playfair Display',serif;font-weight:500;font-size:30px;margin:8px 0 16px;">Camille, l'œil pour le détail</h2>
-          <p>Technicienne de cils, Camille a fait de la précision et de la douceur sa signature. L'atelier s'organise autour d'une idée simple : reconstruire un regard, cil après cil, en accord avec ce qui vous ressemble.</p>
-          <p>Réhaussement, extensions, brow lift, épilation au fil — et depuis 2025, blanchiment et strass dentaire pour prolonger la sublimation jusqu'au sourire.</p>
+          <p>Technicienne de cils depuis 2023, Camille a fait de la précision et de la douceur sa signature. L'atelier s'organise autour d'une idée simple : reconstruire un regard, cil après cil, en accord avec ce qui vous ressemble.</p>
+          <p>Réhaussement, extensions, brow lift, épilation au fil. Et depuis 2025, blanchiment et strass dentaire pour prolonger la sublimation jusqu'au sourire.</p>
           <div class="bio-facts">
             <div><b>53 chemin de Jalloussier</b>Salvizinet</div>
-            <div><b>Antenne Feurs</b>Sur rendez-vous</div>
+            <div><b>Déplacement à domicile</b>Offert dès 100€ de prestations</div>
             <div><b>Cils &amp; sourcils</b>Réhaussement, volume, brow lift</div>
             <div><b>Sourire</b>Blanchiment &amp; strass dentaire</div>
           </div>
@@ -61,17 +61,17 @@
       <div class="tarif-grid">
         <div class="tarif-col">
           <h3>Cils</h3>
-          <div class="menu-item"><span class="menu-name">Réhaussement de cils</span><span class="menu-lead"></span><span class="menu-price">35€</span></div><div class="menu-item"><span class="menu-name">Offre Duo réhaussement<span class="menu-tag">Duo</span></span><span class="menu-lead"></span><span class="menu-price">60€</span></div><div class="menu-item"><span class="menu-name">Teinture</span><span class="menu-lead"></span><span class="menu-price">5€</span></div><div class="menu-item"><span class="menu-name">Lash'Botox (Kératine)</span><span class="menu-lead"></span><span class="menu-price">5€</span></div>
+          <a class="menu-item menu-item-link" href="/prestation.php?p=rehaussement-de-cils"><span class="menu-name">Réhaussement de cils</span><span class="menu-lead"></span><span class="menu-price">35€</span></a><a class="menu-item menu-item-link" href="/prestation.php?p=offre-duo-rehaussement"><span class="menu-name">Offre Duo réhaussement<span class="menu-tag">Duo</span></span><span class="menu-lead"></span><span class="menu-price">60€</span></a><a class="menu-item menu-item-link" href="/prestation.php?p=teinture-cils"><span class="menu-name">Teinture</span><span class="menu-lead"></span><span class="menu-price">5€</span></a><a class="menu-item menu-item-link" href="/prestation.php?p=lash-botox"><span class="menu-name">Lash'Botox (Kératine)</span><span class="menu-lead"></span><span class="menu-price">5€</span></a>
           <div class="tarif-sub">Extension de cils</div>
-          <div class="menu-item"><span class="menu-name">Cil à cil</span><span class="menu-lead"></span><span class="menu-price">70€</span></div><div class="menu-item"><span class="menu-name">Mixte</span><span class="menu-lead"></span><span class="menu-price">75€</span></div><div class="menu-item"><span class="menu-name">Volume russe</span><span class="menu-lead"></span><span class="menu-price">80€</span></div>
+          <a class="menu-item menu-item-link" href="/prestation.php?p=extension-cil-a-cil"><span class="menu-name">Cil à cil</span><span class="menu-lead"></span><span class="menu-price">70€</span></a><a class="menu-item menu-item-link" href="/prestation.php?p=extension-mixte"><span class="menu-name">Mixte</span><span class="menu-lead"></span><span class="menu-price">75€</span></a><a class="menu-item menu-item-link" href="/prestation.php?p=extension-volume-russe"><span class="menu-name">Volume russe</span><span class="menu-lead"></span><span class="menu-price">80€</span></a>
           <div class="tarif-sub">Remplissage</div>
-          <div class="menu-item"><span class="menu-name">Cil à cil</span><span class="menu-lead"></span><span class="menu-price">40€</span></div><div class="menu-item"><span class="menu-name">Mixte</span><span class="menu-lead"></span><span class="menu-price">45€</span></div><div class="menu-item"><span class="menu-name">Volume russe</span><span class="menu-lead"></span><span class="menu-price">45€</span></div><div class="menu-item"><span class="menu-name">Dépose cliente</span><span class="menu-lead"></span><span class="menu-price">10€</span></div><div class="menu-item"><span class="menu-name">La nouvelle pose Whippin<span class="menu-tag">Nouveau</span></span><span class="menu-lead"></span><span class="menu-price">45€</span></div>
+          <a class="menu-item menu-item-link" href="/prestation.php?p=remplissage-cil-a-cil"><span class="menu-name">Cil à cil</span><span class="menu-lead"></span><span class="menu-price">40€</span></a><a class="menu-item menu-item-link" href="/prestation.php?p=remplissage-mixte"><span class="menu-name">Mixte</span><span class="menu-lead"></span><span class="menu-price">45€</span></a><a class="menu-item menu-item-link" href="/prestation.php?p=remplissage-volume-russe"><span class="menu-name">Volume russe</span><span class="menu-lead"></span><span class="menu-price">45€</span></a><a class="menu-item menu-item-link" href="/prestation.php?p=depose-cliente"><span class="menu-name">Dépose cliente</span><span class="menu-lead"></span><span class="menu-price">10€</span></a><a class="menu-item menu-item-link" href="/prestation.php?p=nouvelle-pose-whippin"><span class="menu-name">La nouvelle pose Whippin<span class="menu-tag">Nouveau</span></span><span class="menu-lead"></span><span class="menu-price">45€</span></a>
         </div>
         <div class="tarif-col">
           <h3>Sourcils &amp; visage</h3>
-          <div class="menu-item"><span class="menu-name">Brow lift (avec teinture)</span><span class="menu-lead"></span><span class="menu-price">45€</span></div><div class="menu-item"><span class="menu-name">Brow lift sans épilation</span><span class="menu-lead"></span><span class="menu-price">45€</span></div><div class="menu-item"><span class="menu-name">Teinture sourcils</span><span class="menu-lead"></span><span class="menu-price">10€</span></div><div class="menu-item"><span class="menu-name">Épilation au fil : sourcils</span><span class="menu-lead"></span><span class="menu-price">12€</span></div><div class="menu-item"><span class="menu-name">Épilation au fil : visage</span><span class="menu-lead"></span><span class="menu-price">18€</span></div>
+          <a class="menu-item menu-item-link" href="/prestation.php?p=brow-lift-avec-teinture"><span class="menu-name">Brow lift (avec teinture)</span><span class="menu-lead"></span><span class="menu-price">45€</span></a><a class="menu-item menu-item-link" href="/prestation.php?p=brow-lift-sans-epilation"><span class="menu-name">Brow lift sans épilation</span><span class="menu-lead"></span><span class="menu-price">45€</span></a><a class="menu-item menu-item-link" href="/prestation.php?p=teinture-sourcils"><span class="menu-name">Teinture sourcils</span><span class="menu-lead"></span><span class="menu-price">10€</span></a><a class="menu-item menu-item-link" href="/prestation.php?p=epilation-fil-sourcils"><span class="menu-name">Épilation au fil : sourcils</span><span class="menu-lead"></span><span class="menu-price">12€</span></a><a class="menu-item menu-item-link" href="/prestation.php?p=epilation-fil-visage"><span class="menu-name">Épilation au fil : visage</span><span class="menu-lead"></span><span class="menu-price">18€</span></a>
           <div class="tarif-sub">Le sourire</div>
-          <div class="menu-item"><span class="menu-name">Blanchiment dentaire<span class="menu-tag">Nouveau</span></span><span class="menu-lead"></span><span class="menu-price">Sur RDV</span></div><div class="menu-item"><span class="menu-name">Pose de strass dentaire</span><span class="menu-lead"></span><span class="menu-price">Sur RDV</span></div>
+          <a class="menu-item menu-item-link" href="/prestation.php?p=blanchiment-dentaire"><span class="menu-name">Blanchiment dentaire<span class="menu-tag">Nouveau</span></span><span class="menu-lead"></span><span class="menu-price">Sur RDV</span></a><a class="menu-item menu-item-link" href="/prestation.php?p=pose-strass-dentaire"><span class="menu-name">Pose de strass dentaire</span><span class="menu-lead"></span><span class="menu-price">Sur RDV</span></a>
         </div>
       </div>
     </div>
@@ -86,13 +86,13 @@
       <div class="contact-card" style="max-width:680px;">
         <p>Hello my girl !</p>
         <p>Tu souhaites être indépendante et créer ta propre entreprise d'extension de cils ? Tu souhaites être technicienne de cils ?</p>
-        <p>Viens te former au sein de L'atelier du cil à cil, les formations s'étalent sur deux jours (ou plus). Tu bénéficiras d'un carnet de formation, de modèles réels et d'un accompagnement par mes soins. Le montant de la formation s'élève à 495€.</p>
+        <p>Viens te former au sein de L'atelier du cil à cil, les formations s'étalent sur deux jours (ou plus). Tu bénéficiras d'un carnet de formation, de modèles réels et d'un accompagnement par mes soins. Les formations ont lieu à Feurs et à Saint-Étienne, à partir de 355€.</p>
         <p>Les formations peuvent concerner le réhaussement de cils, le brow lift, la pose d'extensions cil à cil, la pose d'extension volume russe et enfin l'épilation au fil.</p>
         <img src="/assets/formations/formation-cils.jpg" alt="Formation à la pose de cils à l'atelier"
              width="225" height="225" loading="lazy" decoding="async"
              style="max-width:280px;border-radius:12px;margin:16px 0;">
         <p style="margin-bottom:22px;">Le kit de démarrage est compris dans le prix.
-          Découvrez le détail de chaque formation et demandez votre devis en ligne.</p>
+          Découvrez le détail de chaque formation et inscrivez-vous en ligne.</p>
         <a class="btn btn-primary" href="/formations.php">Voir les formations</a>
       </div>
     </div>

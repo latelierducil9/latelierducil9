@@ -61,7 +61,7 @@ $resa      = h((string) reglage('institut.reservation', ''));
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Merci ! — L'atelier du cil à cil</title>
+<title>Merci ! · L'atelier du cil à cil</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@300;400;500&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">

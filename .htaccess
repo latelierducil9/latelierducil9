@@ -51,7 +51,7 @@ Options -Indexes
 #
 #  Les autres fichiers listés sont des « boîtes à outils » utilisées
 #  par les pages : les ouvrir directement n'a aucun intérêt.
-<FilesMatch "^(config\.php|config\.example\.php|lib\.php|carte\.php|prestations-data\.php)$">
+<FilesMatch "^(config\.php|config\.example\.php|lib\.php|carte\.php|prestations-data\.php|formations-data\.php|formation-emails\.php)$">
     <IfModule mod_authz_core.c>
         Require all denied
     </IfModule>

@@ -35,7 +35,7 @@ if ($prestation === null) {
     exit;
 }
 
-$pageTitle = $prestation['nom'] . " — L'atelier du cil à cil";
+$pageTitle = $prestation['nom'] . " · L'atelier du cil à cil";
 
 // Les prestations sans tarif fixe affichent « Sur RDV » : écrire
 // « à partir de Sur RDV » n'aurait aucun sens, on tourne la phrase autrement.

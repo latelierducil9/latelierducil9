@@ -1,19 +1,21 @@
 <?php
 /**
  * ===============================================================
- *  LES FORMATIONS — page publique et demande de devis
+ *  LES FORMATIONS : page publique et formulaire d'inscription
  * ===============================================================
  *
  *  Présente les formations de Camille et permet à une candidate de
- *  demander un devis sans passer par Instagram.
+ *  la contacter sans passer par Instagram.
  *
- *  Le formulaire envoie vers demande-devis.php, qui vérifie tout
- *  côté serveur avant d'enregistrer quoi que ce soit.
+ *  Le formulaire envoie vers demande-formation.php, qui vérifie tout
+ *  côté serveur avant d'enregistrer quoi que ce soit. Le site ne
+ *  propose aucun tarif ferme et n'envoie aucun devis : Camille reçoit
+ *  la demande par e-mail et répond elle-même.
  *
  *  Les textes de présentation sont ceux de Camille, repris tels
- *  quels depuis la page d'accueil. Les résumés et programmes de
- *  chaque formation viendront d'elle : tant qu'ils sont vides dans
- *  formations-data.php, cette page ne les affiche pas.
+ *  quels. Les résumés et programmes de chaque formation viendront
+ *  d'elle : tant qu'ils sont vides dans formations-data.php, cette
+ *  page ne les affiche pas.
  */
 
 declare(strict_types=1);
@@ -24,14 +26,23 @@ require_once __DIR__ . '/lib.php';
 
 $formations = require __DIR__ . '/formations-data.php';
 
-$pageTitle = "Formations cils & sourcils — L'atelier du cil à cil";
-$pageDescription = 'Formations professionnelles aux techniques du regard à Salvizinet : '
-    . 'réhaussement de cils, extensions cil à cil, volume russe, brow lift et épilation au fil. '
-    . 'Demande de devis en ligne.';
+// Le tarif annoncé est le plus bas de la liste : Camille a écrit
+// « formation à partir de 355€ ». Il se met donc à jour tout seul si
+// un tarif change dans formations-data.php.
+//
+// montant_lisible() écrit « 355 € », avec une espace. Partout ailleurs
+// sur le site les tarifs s'écrivent « 35€ », collés : on garde cette
+// présentation pour que la page Formations ne détonne pas.
+$prixDepart = str_replace(' €', '€', montant_lisible(min(array_column($formations, 'prix_cents'))));
+
+$pageTitle = "Formations cils & sourcils · L'atelier du cil à cil";
+$pageDescription = 'Formations professionnelles aux techniques du regard, à Feurs et à '
+    . 'Saint-Étienne : réhaussement de cils, extensions cil à cil, volume russe, brow lift '
+    . 'et épilation au fil. Formations à partir de ' . $prixDepart . '.';
 $pageImage = '/assets/formations/formation-cils.jpg';
 
-// Message affiché au retour de demande-devis.php, après un envoi réussi.
-$reference = preg_match('/^DEV-[A-Z0-9]{4}-[A-Z0-9]{4}$/', (string) ($_GET['recue'] ?? ''))
+// Message affiché au retour de demande-formation.php, après un envoi réussi.
+$reference = preg_match('/^DEM-[A-Z0-9]{4}-[A-Z0-9]{4}$/', (string) ($_GET['recue'] ?? ''))
     ? (string) $_GET['recue']
     : '';
 
@@ -41,7 +52,7 @@ require __DIR__ . '/partials/header.php';
 <section>
   <div class="wrap">
     <div class="section-head">
-      <p class="eyebrow">Se former</p>
+      <p class="eyebrow">Se former · Feurs &amp; Saint-Étienne</p>
       <h1>Mes formations</h1>
       <p>Devenir technicienne du regard, accompagnée pas à pas.</p>
     </div>
@@ -56,7 +67,8 @@ require __DIR__ . '/partials/header.php';
           Un e-mail de confirmation vient de vous être envoyé.
         </p>
         <p style="margin:0;color:var(--ink-soft);font-size:14.5px;">
-          Camille étudie votre projet et vous adresse votre devis personnalisé.
+          Camille vous recontacte personnellement pour parler de votre projet
+          et des dates possibles.
         </p>
       </div>
     <?php endif; ?>
@@ -64,7 +76,7 @@ require __DIR__ . '/partials/header.php';
     <div class="contact-card" style="max-width:680px;">
       <p>Hello my girl !</p>
       <p>Tu souhaites être indépendante et créer ta propre entreprise d'extension de cils ? Tu souhaites être technicienne de cils ?</p>
-      <p>Viens te former au sein de L'atelier du cil à cil, les formations s'étalent sur deux jours (ou plus). Tu bénéficiras d'un carnet de formation, de modèles réels et d'un accompagnement par mes soins. Le montant de la formation s'élève à 495€.</p>
+      <p>Viens te former au sein de L'atelier du cil à cil, les formations s'étalent sur deux jours (ou plus). Tu bénéficiras d'un carnet de formation, de modèles réels et d'un accompagnement par mes soins. Les formations ont lieu à Feurs et à Saint-Étienne, à partir de <?= h($prixDepart) ?>.</p>
       <p>Un kit pour débuter au sein de ton activité te sera également mis à disposition, il est compris dans le prix de la formation, celui-ci contient :</p>
       <ul class="services-list" style="grid-template-columns:1fr;max-width:420px;">
         <li>Une colle professionnelle London Lash</li>
@@ -87,17 +99,19 @@ require __DIR__ . '/partials/header.php';
     <div class="section-head">
       <p class="eyebrow">Au choix</p>
       <h2>Les formations proposées</h2>
+      <p>À Feurs et à Saint-Étienne, à partir de <?= h($prixDepart) ?>, kit compris.</p>
     </div>
 
     <div class="tarif-grid">
-      <?php foreach ($formations as $formation): ?>
-        <div class="tarif-col">
-          <div class="menu-item" style="border-bottom:none;padding-bottom:4px;">
+      <div class="tarif-col">
+        <?php foreach ($formations as $formation): ?>
+          <div class="menu-item" style="<?= trim((string) $formation['resume']) !== '' || !empty($formation['programme']) ? 'border-bottom:none;padding-bottom:4px;' : '' ?>">
             <span class="menu-name" style="font-weight:500;"><?= h($formation['nom']) ?></span>
             <span class="menu-lead"></span>
-            <span class="menu-price"><?= h(montant_lisible((int) $formation['prix_cents'])) ?></span>
+            <?php if (trim((string) $formation['duree']) !== ''): ?>
+              <span class="menu-price" style="font-weight:400;color:var(--ink-soft);"><?= h($formation['duree']) ?></span>
+            <?php endif; ?>
           </div>
-          <p class="petit-detail"><?= h($formation['duree']) ?> · kit compris</p>
 
           <?php if (trim((string) $formation['resume']) !== ''): ?>
             <p style="font-size:14.5px;color:var(--ink-soft);margin:0 0 10px;">
@@ -112,29 +126,34 @@ require __DIR__ . '/partials/header.php';
               <?php endforeach; ?>
             </ul>
           <?php endif; ?>
-        </div>
-      <?php endforeach; ?>
+        <?php endforeach; ?>
+      </div>
     </div>
+
+    <p class="petit-detail" style="margin-top:18px;">
+      Le tarif dépend de la formation choisie et de votre niveau de départ.
+      Camille vous le précise en vous répondant.
+    </p>
   </div>
 </section>
 
-<section id="devis">
+<section id="inscription">
   <div class="wrap">
     <div class="section-head">
       <p class="eyebrow">Sans engagement</p>
-      <h2>Demander un devis</h2>
-      <p>Dites-moi ce qui vous intéresse : Camille vous répond avec un devis
-         personnalisé et des dates possibles.</p>
+      <h2>S'inscrire à une formation</h2>
+      <p>Dites-moi ce qui vous intéresse : Camille vous répond personnellement,
+         avec les dates possibles et le tarif exact.</p>
     </div>
 
-    <form class="formulaire" action="/demande-devis.php" method="post"
+    <form class="formulaire" action="/demande-formation.php" method="post"
           style="max-width:680px;background:var(--paper);border:1px solid var(--line);
                  border-radius:20px;padding:30px;">
 
       <div class="field">
         <label for="formation">La formation qui vous intéresse</label>
         <select id="formation" name="formation" required>
-          <option value="">— Choisissez une formation —</option>
+          <option value="">Choisissez une formation</option>
           <?php foreach ($formations as $formation): ?>
             <option value="<?= h($formation['slug']) ?>"><?= h($formation['nom']) ?></option>
           <?php endforeach; ?>
@@ -174,7 +193,7 @@ require __DIR__ . '/partials/header.php';
        * Champ piège. Invisible pour une visiteuse, mais les robots
        * remplissent automatiquement tous les champs qu'ils trouvent.
        * Une demande arrivant avec ce champ rempli est donc un robot :
-       * demande-devis.php l'écarte sans rien dire.
+       * demande-formation.php l'écarte sans rien dire.
        *
        * aria-hidden et tabindex l'excluent aussi des lecteurs d'écran
        * et de la navigation au clavier : une personne non voyante ne
@@ -187,7 +206,7 @@ require __DIR__ . '/partials/header.php';
       </div>
 
       <button class="btn btn-primary" type="submit" style="width:100%;justify-content:center;margin-top:8px;">
-        Demander mon devis
+        Envoyer ma demande
       </button>
 
       <p style="font-size:12px;color:var(--ink-soft);margin:14px 0 0;line-height:1.5;">

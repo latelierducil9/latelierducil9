@@ -74,7 +74,7 @@ return [
             ],
             [
                 'slug' => 'extension-cil-a-cil',
-                'nom' => 'Extension de cils — Cil à cil',
+                'nom' => 'Extension de cils : cil à cil',
                 'prix' => '70€',
                 'duree' => '1h30',
                 'image' => '/assets/prestations/extension-cil-a-cil.jpg',
@@ -86,7 +86,7 @@ return [
             ],
             [
                 'slug' => 'extension-mixte',
-                'nom' => 'Extension de cils — Mixte',
+                'nom' => 'Extension de cils : mixte',
                 'prix' => '75€',
                 'duree' => '1h45',
                 'image' => '/assets/prestations/extension-mixte.jpg',
@@ -96,7 +96,7 @@ return [
             ],
             [
                 'slug' => 'extension-volume-russe',
-                'nom' => 'Extension de cils — Volume russe',
+                'nom' => 'Extension de cils : volume russe',
                 'prix' => '80€',
                 'duree' => '1h30',
                 'image' => '/assets/prestations/extension-volume-russe.jpg',
@@ -111,7 +111,7 @@ return [
             ],
             [
                 'slug' => 'remplissage-cil-a-cil',
-                'nom' => 'Remplissage — Cil à cil',
+                'nom' => 'Remplissage : cil à cil',
                 'prix' => '40€',
                 'description' => "Le remplissage permet de coller les cils tombés durant la "
                     . "dernière pose. Le remplissage s'effectue toutes les trois semaines. Cette "
@@ -119,7 +119,7 @@ return [
             ],
             [
                 'slug' => 'remplissage-mixte',
-                'nom' => 'Remplissage — Mixte',
+                'nom' => 'Remplissage : mixte',
                 'prix' => '45€',
                 'description' => "Le remplissage permet de coller les cils tombés durant la "
                     . "dernière pose. Le remplissage s'effectue toutes les trois semaines. Cette "
@@ -127,7 +127,7 @@ return [
             ],
             [
                 'slug' => 'remplissage-volume-russe',
-                'nom' => 'Remplissage — Volume russe',
+                'nom' => 'Remplissage : volume russe',
                 'prix' => '45€',
                 'description' => "Le remplissage permet de coller les cils tombés durant la "
                     . "dernière pose. Le remplissage s'effectue toutes les trois semaines. Cette "

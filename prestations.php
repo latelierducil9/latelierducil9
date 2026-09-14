@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 $categories = require __DIR__ . '/prestations-data.php';
 
-$pageTitle = "Prestations — L'atelier du cil à cil";
+$pageTitle = "Prestations · L'atelier du cil à cil";
 $pageDescription = 'Toutes les prestations de cils, sourcils et blanchiment dentaire '
     . "de L'atelier du cil à cil à Salvizinet, avec leurs tarifs.";
 

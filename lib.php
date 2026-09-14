@@ -231,31 +231,33 @@ function creer_tables(PDO $pdo): void
         )
     SQL);
 
-    // Demandes de devis pour les formations. Une ligne est créée dès
-    // qu'une candidate remplit le formulaire ; le devis lui-même n'est
-    // envoyé que lorsque Camille le décide depuis son espace.
+    // Demandes de formation. Une ligne est créée dès qu'une candidate
+    // remplit le formulaire. Le site ne propose aucun tarif et n'envoie
+    // aucun devis : Camille reçoit un e-mail et répond elle-même.
+    //
+    // Cette table ne sert donc qu'à garder une trace. Elle a son utilité
+    // le jour où un e-mail tombe dans les indésirables : la demande, elle,
+    // est toujours là.
     $pdo->exec(<<<SQL
-        CREATE TABLE IF NOT EXISTS devis (
+        CREATE TABLE IF NOT EXISTS demandes_formation (
             id                INTEGER PRIMARY KEY AUTOINCREMENT,
             reference         TEXT    NOT NULL UNIQUE,
             formation_slug    TEXT    NOT NULL,
             formation_nom     TEXT    NOT NULL,
-            prix_propose_cents INTEGER NOT NULL,
             nom               TEXT    NOT NULL,
             email             TEXT    NOT NULL,
             telephone         TEXT    NOT NULL DEFAULT '',
             periode_souhaitee TEXT    NOT NULL DEFAULT '',
-            niveau            TEXT    NOT NULL DEFAULT '',
             message           TEXT    NOT NULL DEFAULT '',
             statut            TEXT    NOT NULL DEFAULT 'nouvelle',
             notes_camille     TEXT    NOT NULL DEFAULT '',
             ip                TEXT,
             cree_le           TEXT    NOT NULL,
-            devis_envoye_le   TEXT,
-            repondu_le        TEXT
+            traitee_le        TEXT
         )
     SQL);
-    $pdo->exec('CREATE INDEX IF NOT EXISTS idx_devis_statut ON devis (statut)');
+    $pdo->exec('CREATE INDEX IF NOT EXISTS idx_demandes_formation_statut
+                ON demandes_formation (statut)');
 
     // Mise à jour douce : ajoute la colonne du solde restant si une
     // base créée avant cette version ne l'a pas encore.
@@ -276,8 +278,8 @@ function code_unique(PDO $pdo, string $genre = 'carte'): string
     // Les noms de table ne peuvent pas être passés en paramètre à SQLite.
     // On les choisit donc dans cette liste fermée, jamais depuis une saisie.
     $formats = [
-        'carte' => ['prefixe' => 'ACC', 'table' => 'cartes', 'colonne' => 'code'],
-        'devis' => ['prefixe' => 'DEV', 'table' => 'devis',  'colonne' => 'reference'],
+        'carte'     => ['prefixe' => 'ACC', 'table' => 'cartes', 'colonne' => 'code'],
+        'formation' => ['prefixe' => 'DEM', 'table' => 'demandes_formation', 'colonne' => 'reference'],
     ];
 
     if (!isset($formats[$genre])) {
@@ -311,12 +313,12 @@ function code_unique(PDO $pdo, string $genre = 'carte'): string
  * Un même appareil a-t-il déjà envoyé trop de demandes récemment ?
  *
  * Empêche qu'un robot remplisse le formulaire en boucle. Partagé entre
- * la carte cadeau et les demandes de devis.
+ * la carte cadeau et les demandes de formation.
  */
 function trop_de_demandes(PDO $pdo, string $genre, string $ip, int $maximum): bool
 {
     // Même précaution que ci-dessus : liste fermée, jamais de saisie.
-    $tables = ['carte' => 'cartes', 'devis' => 'devis'];
+    $tables = ['carte' => 'cartes', 'formation' => 'demandes_formation'];
     if (!isset($tables[$genre])) {
         return false;
     }

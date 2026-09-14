@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-$pageTitle ??= "L'atelier du cil à cil — Cils, sourcils & beauté du regard, Salvizinet";
+$pageTitle ??= "L'atelier du cil à cil · Cils, sourcils & beauté du regard, Salvizinet";
 $pageDescription ??= 'Institut de cils, sourcils et blanchiment dentaire à Salvizinet. '
     . 'Réhaussement, extensions cil à cil, volume russe, brow lift. Réservation en ligne et carte cadeau.';
 

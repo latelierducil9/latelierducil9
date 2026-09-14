@@ -75,20 +75,11 @@ return [
 
 
     // -----------------------------------------------------------
-    //  DEVIS DE FORMATION
-    // -----------------------------------------------------------
-    'devis' => [
-        // Combien de jours le devis reste-t-il valable ?
-        // 30 jours est l'usage courant.
-        'validite_jours' => 30,
-    ],
-
-
-    // -----------------------------------------------------------
     //  ESPACE ADMIN (pour Camille)
     // -----------------------------------------------------------
-    // Mot de passe pour consulter la liste des cartes vendues.
-    // À choisir long et unique — il protège des données clients.
+    // Mot de passe pour consulter la liste des cartes vendues et les
+    // demandes de formation reçues.
+    // À choisir long et unique : il protège des données clientes.
     'admin' => [
         'mot_de_passe' => 'À_REMPLIR',
     ],
@@ -97,7 +88,7 @@ return [
     // -----------------------------------------------------------
     //  COORDONNÉES DE L'INSTITUT
     // -----------------------------------------------------------
-    //  Affichées sur la carte cadeau et sur les devis de formation.
+    //  Affichées sur la carte cadeau envoyée par e-mail.
     'institut' => [
         'nom'       => "L'atelier du cil à cil",
         'adresse'   => '53 chemin de Jalloussier, 42110 Salvizinet',
@@ -105,30 +96,6 @@ return [
         'instagram' => 'https://www.instagram.com/latelierducilacil',
         // Lien de prise de rendez-vous Square (Salvizinet)
         'reservation' => 'https://book.squareup.com/appointments/6gl1qk9h445g0l/location/LBS84WWAYQ6ES/services',
-
-        // ---- Obligatoire pour émettre un devis -----------------
-        //
-        // Tant que ces deux lignes ne sont pas remplies, le site
-        // REFUSE d'envoyer un devis : en France, un devis engage
-        // celui qui l'émet et doit porter ces mentions.
-
-        // Le numéro à 14 chiffres de l'entreprise.
-        'siret' => 'À_REMPLIR',
-
-        // Le régime de TVA, à recopier mot pour mot sur le devis.
-        //
-        // Si l'entreprise ne facture PAS la TVA (cas courant en
-        // micro-entreprise), la mention exacte est :
-        //     TVA non applicable, article 293 B du CGI
-        //
-        // Si elle la facture, indiquer le numéro de TVA
-        // intracommunautaire, par exemple :
-        //     TVA intracommunautaire : FR00123456789
-        //
-        // Aucune valeur par défaut n'est proposée ici : se tromper
-        // de régime fiscal sur un document commercial se corrige
-        // mal après coup.
-        'mention_tva' => 'À_REMPLIR',
     ],
 
 ];

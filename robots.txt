@@ -15,6 +15,7 @@ Disallow: /admin.php
 Disallow: /create-checkout.php
 Disallow: /webhook.php
 Disallow: /merci.php
+Disallow: /demande-formation.php
 Disallow: /data/
 
 Sitemap: https://latelierducilacil.com/sitemap.php

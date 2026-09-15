@@ -61,12 +61,14 @@ require __DIR__ . '/partials/header.php';
         <li>Des goupillons</li>
         <li>Des patchs isolants</li>
       </ul>
-      <?php /* La photo et le bouton côte à côte, empilés sur téléphone. */ ?>
+      <?php /* La photo à gauche, le bouton repoussé contre le bord droit
+               du cadre par la marge automatique. Sur téléphone, la ligne
+               se replie et le bouton passe sous la photo. */ ?>
       <div style="display:flex;flex-wrap:wrap;align-items:center;gap:26px;margin-top:20px;">
         <img src="/assets/formations/formation-cils.jpg" alt="Formation à la pose de cils à l'atelier"
              width="225" height="225" loading="lazy" decoding="async"
              style="width:225px;max-width:100%;border-radius:12px;">
-        <a class="btn btn-primary" href="/candidature.php">Se former</a>
+        <a class="btn btn-primary" href="/candidature.php" style="margin-left:auto;">Se former</a>
       </div>
     </div>
   </div>
@@ -77,17 +79,21 @@ require __DIR__ . '/partials/header.php';
     <div class="section-head">
       <p class="eyebrow">Au choix</p>
       <h2>Les formations proposées</h2>
-      <p>À Feurs et à Saint-Étienne, à partir de <?= h($prixDepart) ?>, kit compris. Cliquez sur une formation pour vous y inscrire.</p>
+      <p>À Feurs et à Saint-Étienne, à partir de <?= h($prixDepart) ?>, kit compris. Cliquez sur une formation pour en voir le détail.</p>
     </div>
 
+    <?php /* Plus de tarif en bout de ligne : toutes les formations
+             démarrent au même prix, le répéter cinq fois n'apprenait
+             rien. Il est rappelé une fois au-dessus, et détaillé sur la
+             fiche de chaque formation. La flèche remplace le prix pour
+             que la ligne se voie cliquable. */ ?>
     <div class="tarif-grid">
       <div class="tarif-col" style="max-width:520px;">
         <?php foreach ($formations as $f): ?>
-          <?php $prixLigne = str_replace(' €', '€', montant_lisible((int) $f['prix_cents'])); ?>
-          <a class="menu-item menu-item-link" href="/candidature.php?f=<?= urlencode($f['slug']) ?>">
+          <a class="menu-item menu-item-link" href="/formation.php?f=<?= urlencode($f['slug']) ?>">
             <span class="menu-name"><?= h($f['nom']) ?></span>
             <span class="menu-lead"></span>
-            <span class="menu-price"><?= h($prixLigne) ?></span>
+            <span class="menu-price" aria-hidden="true">&rsaquo;</span>
           </a>
         <?php endforeach; ?>
       </div>

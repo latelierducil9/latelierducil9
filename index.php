@@ -2,9 +2,9 @@
   <section class="hero">
     <div class="wrap">
       <div>
-        <p class="eyebrow">Lash · Brow &amp; Beauty · Salvizinet</p>
+        <p class="eyebrow">Lash · Brow &amp; Beauty · Feurs</p>
         <h1>La beauté<br>de votre <span class="script">regard</span></h1>
-        <p class="lede">Réhaussement, extensions cil à cil, volume russe, sourcils et blanchiment dentaire. Camille redessine votre regard au 53 chemin de Jalloussier, à Salvizinet.</p>
+        <p class="lede">Réhaussement, extensions cil à cil, volume russe, sourcils et blanchiment dentaire. Camille redessine votre regard au 20 rue Camille Pariat, à Feurs.</p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="https://book.squareup.com/appointments/6gl1qk9h445g0l/location/LBS84WWAYQ6ES/services" target="_blank" rel="noopener">Prendre rendez-vous</a>
           <a class="btn btn-ghost" href="#carte-cadeau">Offrir une carte cadeau</a>
@@ -27,7 +27,7 @@
           <p>Technicienne de cils depuis 2023, Camille a fait de la précision et de la douceur sa signature. L'atelier s'organise autour d'une idée simple : reconstruire un regard, cil après cil, en accord avec ce qui vous ressemble.</p>
           <p>Réhaussement, extensions, brow lift, épilation au fil. Et depuis 2025, blanchiment et strass dentaire pour prolonger la sublimation jusqu'au sourire.</p>
           <div class="bio-facts">
-            <div><b>53 chemin de Jalloussier</b>Salvizinet</div>
+            <div><b>20 rue Camille Pariat</b>Feurs</div>
             <div><b>Déplacement à domicile</b>Offert dès 100€ de prestations</div>
             <div><b>Cils &amp; sourcils</b>Réhaussement, volume, brow lift</div>
             <div><b>Sourire</b>Blanchiment &amp; strass dentaire</div>
@@ -61,7 +61,7 @@
       <div class="tarif-grid">
         <div class="tarif-col">
           <h3>Cils</h3>
-          <a class="menu-item menu-item-link" href="/prestation.php?p=rehaussement-de-cils"><span class="menu-name">Réhaussement de cils</span><span class="menu-lead"></span><span class="menu-price">35€</span></a><a class="menu-item menu-item-link" href="/prestation.php?p=offre-duo-rehaussement"><span class="menu-name">Offre Duo réhaussement<span class="menu-tag">Duo</span></span><span class="menu-lead"></span><span class="menu-price">60€</span></a><a class="menu-item menu-item-link" href="/prestation.php?p=teinture-cils"><span class="menu-name">Teinture</span><span class="menu-lead"></span><span class="menu-price">5€</span></a><a class="menu-item menu-item-link" href="/prestation.php?p=lash-botox"><span class="menu-name">Lash'Botox (Kératine)</span><span class="menu-lead"></span><span class="menu-price">5€</span></a>
+          <a class="menu-item menu-item-link" href="/prestation.php?p=rehaussement-de-cils"><span class="menu-name">Réhaussement de cils</span><span class="menu-lead"></span><span class="menu-price">35€</span></a><a class="menu-item menu-item-link" href="/prestation.php?p=lash-lift-coreen"><span class="menu-name">Lash lift coréen<span class="menu-tag">Nouveau</span></span><span class="menu-lead"></span><span class="menu-price">Sur RDV</span></a><a class="menu-item menu-item-link" href="/prestation.php?p=offre-duo-rehaussement"><span class="menu-name">Offre Duo réhaussement<span class="menu-tag">Duo</span></span><span class="menu-lead"></span><span class="menu-price">60€</span></a><a class="menu-item menu-item-link" href="/prestation.php?p=teinture-cils"><span class="menu-name">Teinture</span><span class="menu-lead"></span><span class="menu-price">5€</span></a><a class="menu-item menu-item-link" href="/prestation.php?p=lash-botox"><span class="menu-name">Lash'Botox (Kératine)</span><span class="menu-lead"></span><span class="menu-price">5€</span></a>
           <div class="tarif-sub">Extension de cils</div>
           <a class="menu-item menu-item-link" href="/prestation.php?p=extension-cil-a-cil"><span class="menu-name">Cil à cil</span><span class="menu-lead"></span><span class="menu-price">70€</span></a><a class="menu-item menu-item-link" href="/prestation.php?p=extension-mixte"><span class="menu-name">Mixte</span><span class="menu-lead"></span><span class="menu-price">75€</span></a><a class="menu-item menu-item-link" href="/prestation.php?p=extension-volume-russe"><span class="menu-name">Volume russe</span><span class="menu-lead"></span><span class="menu-price">80€</span></a>
           <div class="tarif-sub">Remplissage</div>
@@ -105,9 +105,13 @@
         <h2>Les tendances</h2>
       </div>
       <div class="contact-card" style="max-width:680px;">
-        <p>Les tendances du moment pourront concerner des produits, des évènements ou encore les nouvelles poses de cils !</p>
-        <p>Tout ce qui sera lié à l'actualité de L'atelier du cil à cil vous sera expliqué dans cette rubrique !</p>
-        <p>Venez découvrir nos nouveaux locaux à Feurs.</p>
+        <?php /* Texte de Camille, message du 13 octobre. Corrigé pour
+                 l'orthographe seulement : majuscule et virgule d'ouverture,
+                 accord de « formée », accord de « comprises ». Aucun mot
+                 de fond n'a été changé. */ ?>
+        <p>Hello les filles, dernièrement je me suis formée au lash lift coréen, celui-ci vous permettra d'avoir un effet lifté et teinté durant 6 à 8 semaines. À la différence du réhaussement de cils, cette pratique vous permettra d'hydrater vos cils et de les réparer en profondeur.</p>
+        <p>De plus je me suis également formée au Brow lift sans épilation. Je viendrai restructurer vos sourcils avec un mapping en plusieurs étapes. Une décoloration de vos poils et une teinture de vos sourcils seront comprises dans la prestation.</p>
+        <p>N'hésitez pas à réserver vos nouvelles prestations en ligne ou par messages privés ! À bientôt</p>
       </div>
     </div>
   </section>
@@ -167,11 +171,11 @@
       </div>
       <div class="contact-grid">
         <div class="contact-card">
-          <h3>Salvizinet &amp; Feurs</h3>
-          <p>Cils, sourcils, brow lift. Pour un rendez-vous à Feurs, sélectionnez « RDV Feurs Camille Pigeon » sur le calendrier.</p>
+          <h3>Feurs</h3>
+          <p>Cils, sourcils, brow lift. Réservez en ligne le créneau qui vous convient.</p>
           <a class="btn btn-primary" href="https://book.squareup.com/appointments/6gl1qk9h445g0l/location/LBS84WWAYQ6ES/services" target="_blank" rel="noopener">Réserver un soin</a>
           <div style="margin-top:22px;">
-            <div class="info-line"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>53 chemin de Jalloussier, 42110 Salvizinet</div>
+            <div class="info-line"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>20 rue Camille Pariat, 42110 Feurs</div>
             <div class="info-line"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0122 16.92z"/></svg>06 12 42 26 57</div>
             <div class="info-line"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>@latelierducilacil</div>
             <div class="info-line"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.82s.51.5 0 0A4.278 4.278 0 0 1 15.54 3h-3.09v12.4a2.592 2.592 0 0 1-2.59 2.5c-1.42 0-2.6-1.16-2.6-2.6 0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.31 1.38V7.3s-1.88.09-3.24-1.48z"/></svg>@latelierducil4</div>
@@ -243,9 +247,9 @@ $fiche = [
     'currenciesAccepted' => 'EUR',
     'address' => [
         '@type' => 'PostalAddress',
-        'streetAddress' => '53 chemin de Jalloussier',
+        'streetAddress' => '20 rue Camille Pariat',
         'postalCode' => '42110',
-        'addressLocality' => 'Salvizinet',
+        'addressLocality' => 'Feurs',
         'addressRegion' => 'Loire',
         'addressCountry' => 'FR',
     ],

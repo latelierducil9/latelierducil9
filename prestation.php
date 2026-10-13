@@ -41,8 +41,8 @@ $pageTitle = $prestation['nom'] . " · L'atelier du cil à cil";
 // « à partir de Sur RDV » n'aurait aucun sens, on tourne la phrase autrement.
 $prixFixe = (bool) preg_match('/\d/', $prestation['prix']);
 $pageDescription = $prixFixe
-    ? $prestation['nom'] . " à Salvizinet, à partir de " . $prestation['prix'] . '.'
-    : $prestation['nom'] . " à Salvizinet, sur rendez-vous.";
+    ? $prestation['nom'] . " à Feurs, à partir de " . $prestation['prix'] . '.'
+    : $prestation['nom'] . " à Feurs, sur rendez-vous.";
 
 // Quand une cliente partage le lien d'une prestation, c'est la photo de
 // cette prestation qui doit apparaître dans l'aperçu.

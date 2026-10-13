@@ -47,6 +47,21 @@ return [
                     . "longueur de vos cils le permet.",
             ],
             [
+                /*
+                 * Annoncée par Camille le 13 octobre. Son tarif n'a pas
+                 * encore été donné : « Sur RDV » tient la place, comme
+                 * pour le blanchiment dentaire. Aucun prix n'est inventé.
+                 * La description reprend ses propres mots.
+                 */
+                'slug' => 'lash-lift-coreen',
+                'nom' => 'Lash lift coréen',
+                'etiquette' => 'Nouveau',
+                'prix' => 'Sur RDV',
+                'description' => "Le lash lift coréen vous donne un effet lifté et teinté "
+                    . "durant 6 à 8 semaines. À la différence du réhaussement de cils, cette "
+                    . "pratique hydrate vos cils et les répare en profondeur.",
+            ],
+            [
                 'slug' => 'offre-duo-rehaussement',
                 'nom' => 'Offre Duo réhaussement',
                 'etiquette' => 'Duo',

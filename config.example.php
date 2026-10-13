@@ -91,10 +91,10 @@ return [
     //  Affichées sur la carte cadeau envoyée par e-mail.
     'institut' => [
         'nom'       => "L'atelier du cil à cil",
-        'adresse'   => '53 chemin de Jalloussier, 42110 Salvizinet',
+        'adresse'   => '20 rue Camille Pariat, 42110 Feurs',
         'telephone' => 'À_REMPLIR',
         'instagram' => 'https://www.instagram.com/latelierducilacil',
-        // Lien de prise de rendez-vous Square (Salvizinet)
+        // Lien de prise de rendez-vous Square (Feurs)
         'reservation' => 'https://book.squareup.com/appointments/6gl1qk9h445g0l/location/LBS84WWAYQ6ES/services',
     ],
 

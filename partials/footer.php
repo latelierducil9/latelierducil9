@@ -12,7 +12,7 @@
       </a>
       <a href="https://book.squareup.com/appointments/6gl1qk9h445g0l/location/LBS84WWAYQ6ES/services" target="_blank" rel="noopener">Réserver</a>
     </div>
-    <p class="copy">© 2026 L'atelier du cil à cil · Camille Pigeon · Salvizinet</p>
+    <p class="copy">© 2026 L'atelier du cil à cil · Camille Pigeon · Feurs</p>
   </div>
 </footer>
 

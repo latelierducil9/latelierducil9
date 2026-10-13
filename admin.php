@@ -362,7 +362,7 @@ $jeton = (string) ($_SESSION['jeton'] ?? '');
     <div class="tete">
       <div>
         <h1>Cartes cadeaux</h1>
-        <div class="sous">L'atelier du cil à cil · 53 chemin de Jalloussier, Salvizinet</div>
+        <div class="sous">L'atelier du cil à cil · 20 rue Camille Pariat, Feurs</div>
       </div>
       <a class="btn btn-ghost" href="admin.php?deconnexion=1">Se déconnecter</a>
     </div>

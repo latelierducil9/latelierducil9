@@ -47,16 +47,12 @@ return [
                     . "longueur de vos cils le permet.",
             ],
             [
-                /*
-                 * Annoncée par Camille le 13 octobre. Son tarif n'a pas
-                 * encore été donné : « Sur RDV » tient la place, comme
-                 * pour le blanchiment dentaire. Aucun prix n'est inventé.
-                 * La description reprend ses propres mots.
-                 */
+                // Annoncée par Camille le 13 octobre, tarif donné le même jour.
+                // La description reprend ses propres mots.
                 'slug' => 'lash-lift-coreen',
                 'nom' => 'Lash lift coréen',
                 'etiquette' => 'Nouveau',
-                'prix' => 'Sur RDV',
+                'prix' => '45€',
                 'description' => "Le lash lift coréen vous donne un effet lifté et teinté "
                     . "durant 6 à 8 semaines. À la différence du réhaussement de cils, cette "
                     . "pratique hydrate vos cils et les répare en profondeur.",
@@ -190,7 +186,7 @@ return [
             [
                 'slug' => 'brow-lift-sans-epilation',
                 'nom' => 'Brow lift sans épilation',
-                'prix' => '45€',
+                'prix' => '55€',
                 'duree' => '1h30',
                 'image' => '/assets/prestations/brow-lift-avec-teinture.jpg',
                 'description' => "Il est possible de structurer vos sourcils sans épilation, "

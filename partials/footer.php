@@ -12,6 +12,13 @@
       </a>
       <a href="https://book.squareup.com/appointments/6gl1qk9h445g0l/location/LBS84WWAYQ6ES/services" target="_blank" rel="noopener">Réserver</a>
     </div>
+    <?php /* Les trois pages obligatoires. Discrètes mais présentes sur
+             chaque page, c'est l'usage et c'est ce qu'attend la loi. */ ?>
+    <p class="legal-links">
+      <a href="/mentions-legales.php">Mentions légales</a>
+      <a href="/confidentialite.php">Confidentialité</a>
+      <a href="/cgv.php">CGV</a>
+    </p>
     <p class="copy">© 2026 L'atelier du cil à cil · Camille Pigeon · Feurs</p>
   </div>
 </footer>

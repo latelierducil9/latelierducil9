@@ -157,7 +157,7 @@
           <div class="field"><label for="message">Petit mot (facultatif)</label><textarea name="message" id="message" rows="2" placeholder="Joyeux anniversaire..."></textarea></div>
           <div class="gift-total"><span>Total à régler</span><span class="num" id="totalDisplay">35€</span></div>
           <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Payer et envoyer la carte →</button>
-          <p class="gift-disc">Paiement sécurisé par Stripe. Dès confirmation du paiement, la carte cadeau est envoyée automatiquement par e-mail au destinataire, avec une copie à votre adresse.</p>
+          <p class="gift-disc">Paiement sécurisé par Stripe. Dès confirmation du paiement, la carte cadeau est envoyée automatiquement par e-mail au destinataire, avec une copie à votre adresse. En achetant, vous acceptez les <a href="/cgv.php">conditions de vente</a> ; vos données sont traitées comme décrit en <a href="/confidentialite.php">confidentialité</a>.</p>
         </form>
       </div>
     </div>

@@ -153,6 +153,19 @@
   .menu-price{font-weight:600;color:var(--pink);white-space:nowrap;font-size:15.5px;}
   @media(max-width:760px){.tarif-grid{grid-template-columns:1fr;gap:12px;}}
 
+  /* Les pages légales : du texte long, qui doit rester lisible. */
+  .texte-legal h2{font-family:'Playfair Display',serif;font-weight:500;font-size:21px;
+    margin:30px 0 10px;}
+  .texte-legal h2:first-child{margin-top:0;}
+  .texte-legal h3{font-size:16px;font-weight:600;margin:20px 0 6px;}
+  .texte-legal p{font-size:15px;line-height:1.75;margin:0 0 14px;color:var(--ink);}
+  .texte-legal a{color:var(--pink);}
+  .texte-legal .services-list{margin-bottom:18px;}
+  .texte-legal .services-list li{font-size:15px;line-height:1.7;}
+  /* Une information légale qui manque : visible, pour être complétée. */
+  .a-completer{display:inline-block;background:#FDF0D5;color:#7a5b12;font-size:13px;
+    padding:2px 9px;border-radius:7px;font-style:italic;}
+
   /* Gift card */
   .gift{background:linear-gradient(180deg,var(--blush-2),var(--blush));}
   .gift-panel{display:grid;grid-template-columns:.95fr 1.05fr;border-radius:24px;overflow:hidden;
@@ -211,3 +224,9 @@
     transition:background .2s,color .2s;}
   footer .social-btn:hover{background:var(--pink);color:#fff;}
   footer .copy{font-size:12px;color:var(--ink-soft);}
+  /* Les liens obligatoires du pied de page : présents, sans attirer l'œil. */
+  footer .legal-links{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 22px;
+    margin:0 0 10px;font-size:12.5px;}
+  footer .legal-links a{color:var(--ink-soft);text-decoration:none;}
+  footer .legal-links a:hover,footer .legal-links a:focus-visible{color:var(--pink);
+    text-decoration:underline;}

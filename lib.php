@@ -217,6 +217,7 @@ function bdd(): PDO
         $pdo->exec('PRAGMA journal_mode = WAL');
         $pdo->exec('PRAGMA busy_timeout = 5000');
         creer_tables($pdo);
+        menage_donnees($pdo);
     } catch (Throwable $e) {
         journal('Ouverture base impossible : ' . $e->getMessage());
         page_erreur("Le site n'arrive pas à enregistrer la commande.");
@@ -308,6 +309,71 @@ function creer_tables(PDO $pdo): void
     if (!in_array('restant_cents', array_column($colonnes, 'name'), true)) {
         $pdo->exec('ALTER TABLE cartes ADD COLUMN restant_cents INTEGER');
         $pdo->exec('UPDATE cartes SET restant_cents = montant_cents WHERE restant_cents IS NULL');
+    }
+}
+
+/**
+ * Efface les données personnelles qui ont fait leur temps.
+ *
+ * Le RGPD interdit de garder des coordonnées indéfiniment : une donnée
+ * ne se conserve que le temps de l'usage qui a justifié sa collecte.
+ * Ce ménage applique les durées annoncées sur /confidentialite.php, et
+ * les deux doivent rester d'accord.
+ *
+ * Il tourne au plus une fois par jour : la date du dernier passage est
+ * posée dans un petit fichier, pas en base, pour ne rien verrouiller.
+ *
+ * Ce qui part, et pourquoi :
+ *
+ *   - les adresses IP au bout de 30 jours. Elles ne servent qu'à
+ *     repérer un appareil qui remplit les formulaires en boucle, sur
+ *     une fenêtre d'une heure. Passé ce délai elles ne servent plus à
+ *     rien, et ce sont des données personnelles.
+ *   - les essais de mot de passe ratés au bout de 30 jours. Le blocage
+ *     ne regarde que le dernier quart d'heure.
+ *   - les candidatures aux formations au bout de 3 ans.
+ *   - les coordonnées liées aux cartes cadeaux 3 ans après l'expiration
+ *     de la carte. Le montant, les dates et le code restent : la
+ *     comptabilité doit pouvoir retrouver la vente. C'est le nom et
+ *     l'e-mail qui s'en vont, pas la trace de l'opération.
+ */
+function menage_donnees(PDO $pdo): void
+{
+    $temoin = DOSSIER_DONNEES . '/dernier-menage.txt';
+
+    // Déjà fait aujourd'hui : on ne refait pas le tour à chaque visite.
+    if (is_file($temoin) && (time() - (int) @filemtime($temoin)) < 86400) {
+        return;
+    }
+
+    try {
+        // 1. Les adresses IP, inutiles passé un mois.
+        $pdo->exec("UPDATE cartes SET ip = NULL
+                     WHERE ip IS NOT NULL AND cree_le < datetime('now', '-30 days')");
+        $pdo->exec("UPDATE demandes_formation SET ip = NULL
+                     WHERE ip IS NOT NULL AND cree_le < datetime('now', '-30 days')");
+
+        // 2. Les essais de mot de passe ratés.
+        $pdo->exec("DELETE FROM connexions_ratees
+                     WHERE quand < datetime('now', '-30 days')");
+
+        // 3. Les candidatures aux formations, 3 ans après leur arrivée.
+        $pdo->exec("DELETE FROM demandes_formation
+                     WHERE cree_le < datetime('now', '-3 years')");
+
+        // 4. Les coordonnées des cartes cadeaux, 3 ans après expiration.
+        //    La ligne reste, vidée de ce qui identifie quelqu'un.
+        $pdo->exec("UPDATE cartes
+                       SET de_nom = '', de_email = '', pour_nom = '',
+                           pour_email = '', message = ''
+                     WHERE expire_le IS NOT NULL
+                       AND expire_le < datetime('now', '-3 years')
+                       AND de_email <> ''");
+
+        @touch($temoin);
+    } catch (Throwable $e) {
+        // Un ménage qui échoue ne doit jamais empêcher une vente.
+        journal('Ménage des données impossible : ' . $e->getMessage());
     }
 }
 

@@ -86,7 +86,9 @@ $slugChoisi = (string) ($slugChoisi ?? '');
 
   <p style="font-size:12px;color:var(--ink-soft);margin:14px 0 0;line-height:1.5;">
     Vos coordonnées servent uniquement à vous répondre. Elles ne sont ni
-    revendues ni utilisées pour autre chose.
+    revendues ni utilisées pour autre chose, et vous pouvez demander leur
+    effacement à tout moment.
+    <a href="/confidentialite.php" style="color:var(--pink);">En savoir plus</a>.
   </p>
 </form>
 

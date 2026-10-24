@@ -11,6 +11,9 @@ data/*.sqlite-journal
 data/*.db
 data/*.log
 
+# Marque la date du dernier ménage des données : propre à chaque serveur.
+data/dernier-menage.txt
+
 # Fichiers système inutiles
 .DS_Store
 Thumbs.db

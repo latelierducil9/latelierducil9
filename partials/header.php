@@ -82,9 +82,10 @@ $pageImageUrl = $siteBase . $pageImage;
 <meta name="twitter:description" content="<?= h($pageDescription) ?>">
 <meta name="twitter:image" content="<?= h($pageImageUrl) ?>">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+<?php /* Les polices sont servies par le site, plus par Google : aucune
+         donnée de la visiteuse ne part vers un autre domaine. Voir
+         l'en-tête de assets/polices.css. */ ?>
+<link rel="stylesheet" href="/assets/polices.css">
 <link rel="stylesheet" href="/assets/style.css">
 </head>
 <body>

@@ -54,6 +54,12 @@ foreach ($formations as $formation) {
 // s'y règle par un paramètre, ce qui ne crée pas une page de plus.
 $pages[] = ['/candidature.php', @filemtime(__DIR__ . '/candidature.php') ?: $majFormations, '0.6'];
 
+// Les trois pages légales. Elles doivent rester trouvables : c'est
+// d'ailleurs ce que vérifie une autorité qui contrôle un site.
+foreach (['mentions-legales', 'confidentialite', 'cgv'] as $page) {
+    $pages[] = ['/' . $page . '.php', @filemtime(__DIR__ . '/' . $page . '.php') ?: $majAccueil, '0.3'];
+}
+
 echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
 ?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

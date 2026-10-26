@@ -37,15 +37,17 @@ return [
     'email'          => 'latelierducil9@gmail.com',
 
     // Le numéro à 14 chiffres, consultable sur l'avis de situation INSEE.
-    'siret' => '',
+    // Vérifié : 14 chiffres, et la clé de contrôle du SIREN tombe juste.
+    'siret' => '98027007800010',
 
     // Micro-entreprise, entreprise individuelle, SASU, EURL…
-    'statut_juridique' => '',
+    'statut_juridique' => 'Micro-entreprise',
 
-    // Soit le numéro de TVA intracommunautaire, soit la mention exacte
-    // « TVA non applicable, article 293 B du CGI » pour une
-    // micro-entreprise qui ne facture pas la TVA.
-    'tva' => '',
+    // Camille ne facture pas la TVA (franchise en base). La formule
+    // ci-dessous est imposée au mot près par l'article 293 B du code
+    // général des impôts : elle ne se reformule pas, et son absence sur
+    // un document commercial est sanctionnable.
+    'tva' => 'TVA non applicable, article 293 B du CGI',
 
     /* ---------------------------------------------------------------
      *  L'HÉBERGEUR DU SITE
@@ -77,8 +79,11 @@ return [
     //  pour une prestation de service : le nom de l'assureur et
     //  l'étendue géographique de la garantie.
     'assurance' => [
-        'nom'        => '',
-        'couverture' => '',   // étendue géographique, ex. « France métropolitaine »
+        'nom' => 'MAIF',
+        // Camille a donné l'assureur, pas l'étendue géographique de la
+        // garantie. Le champ reste vide plutôt que d'affirmer une zone
+        // inconnue : la phrase des CGV reste juste sans lui.
+        'couverture' => '',
     ],
 
     //  Durée de validité d'une carte cadeau, telle qu'annoncée à

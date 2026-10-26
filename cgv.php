@@ -142,23 +142,43 @@ require __DIR__ . '/partials/header.php';
         <a href="mailto:<?= h($infos['email']) ?>"><?= h($infos['email']) ?></a>,
         la plupart des situations se règlent ainsi.
       </p>
-      <p>
-        Si cela ne suffit pas, vous pouvez saisir gratuitement un médiateur de
-        la consommation :
-        <?php if (info_presente($infos['mediateur']['nom'])): ?>
-          <strong><?= h($infos['mediateur']['nom']) ?></strong><?php
+      <?php
+      /*
+       * Le médiateur de la consommation.
+       *
+       * L'adhésion à un médiateur est obligatoire pour qui vend à des
+       * particuliers (article L.612-1 du code de la consommation), et
+       * ses coordonnées doivent figurer ici (article L.616-1).
+       *
+       * Camille a décidé de ne pas y adhérer pour le moment. Ce choix
+       * lui appartient et il est noté ici pour qu'il reste un choix,
+       * pas un oubli : le jour où elle adhère, il suffit de remplir le
+       * bloc « mediateur » dans mentions-data.php et le paragraphe
+       * réapparaît tout seul.
+       *
+       * En attendant, la page ne nomme aucun médiateur. Elle ne prétend
+       * pas non plus qu'il n'en existe pas : les recours réels d'une
+       * cliente, la plateforme européenne et la DGCCRF, sont indiqués
+       * ci-dessous. Annoncer un médiateur imaginaire serait plus grave
+       * que de n'en annoncer aucun.
+       */
+      ?>
+      <?php if (info_presente($infos['mediateur']['nom'])): ?>
+        <p>
+          Si cela ne suffit pas, vous pouvez saisir gratuitement un médiateur de
+          la consommation : <strong><?= h($infos['mediateur']['nom']) ?></strong><?php
           if (info_presente($infos['mediateur']['adresse'])): ?>,
           <?= h($infos['mediateur']['adresse']) ?><?php endif; ?><?php
           if (info_presente($infos['mediateur']['site'])): ?>,
           <a href="<?= h($infos['mediateur']['site']) ?>" target="_blank" rel="noopener"><?= h($infos['mediateur']['site']) ?></a><?php endif; ?>.
-        <?php else: ?>
-          <?= info_legale('', 'le nom, l\'adresse et le site du médiateur de la consommation (adhésion obligatoire)') ?>
-        <?php endif; ?>
-      </p>
+        </p>
+      <?php endif; ?>
       <p>
-        Vous pouvez également utiliser la plateforme européenne de règlement
-        des litiges :
-        <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener">ec.europa.eu/consumers/odr</a>.
+        Si le désaccord persiste, vous pouvez utiliser la plateforme européenne
+        de règlement des litiges :
+        <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener">ec.europa.eu/consumers/odr</a>,
+        ou signaler la situation à la répression des fraudes sur
+        <a href="https://signal.conso.gouv.fr" target="_blank" rel="noopener">signal.conso.gouv.fr</a>.
       </p>
 
       <h2>Vos données</h2>

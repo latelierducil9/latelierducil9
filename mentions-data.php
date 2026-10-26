@@ -69,6 +69,11 @@ return [
     //  Obligatoire pour qui vend à des particuliers (article L.612-1 du
     //  code de la consommation). Il faut adhérer à un médiateur agréé
     //  et indiquer son nom et son adresse, y compris son site.
+    //
+    //  Camille a décidé de ne pas y adhérer pour le moment, en
+    //  connaissance de l'obligation. Laissé vide volontairement : ce
+    //  n'est pas un oubli. Le jour où elle adhère, remplir ces trois
+    //  lignes suffit, le paragraphe des CGV réapparaît tout seul.
     'mediateur' => [
         'nom'     => '',
         'adresse' => '',
